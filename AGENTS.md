@@ -28,6 +28,11 @@ These instructions apply to the entire repository, including all nested workspac
 - No speculative extra features, dependency additions, refactors, tests, or investigations.
 - Report only what changed, where it changed, and any essential caveat.
 
+## 5. No merges — ever by default
+- **Do not run `git merge`, merge a pull request, squash-merge, or rebase-merge branches.**
+- Keep changes as direct commits on the intended existing branch (currently `main`), without creating or merging PRs unless explicitly requested.
+- If a requested workflow would require merging, stop before the merge and ask for explicit permission. Never silently merge.
+
 ## Existing baseline
 - TypeScript + React + Vite, using npm workspaces.
 - Site source: `src/`; experiments: `packages/`.
