@@ -4,6 +4,7 @@ import { GlitchButton } from '@wormhole/glitch-button'
 import { RickrollLauncher } from '@wormhole/rickroll-launcher'
 import { HiringForm } from '@wormhole/hiring-form'
 import { DemolitionTeaser } from '@wormhole/page-demolition'
+import { MouseVirusTeaser } from '@wormhole/mouse-virus'
 import { LanguageToggle } from '@wormhole/language-toggle'
 import type { Language } from '@wormhole/language-toggle'
 import '@wormhole/adolfo-ronaldo/style.css'
@@ -12,6 +13,7 @@ import '@wormhole/rickroll-launcher/style.css'
 import '@wormhole/hiring-form/style.css'
 import '@wormhole/language-toggle/style.css'
 import '@wormhole/page-demolition/style.css'
+import '@wormhole/mouse-virus/style.css'
 
 export default function App() {
   // Give every language its own real URL, so search engines can index both.
@@ -46,6 +48,7 @@ export default function App() {
               ? 'ورم‌هول یک زمین بازی تعاملی با React است؛ با افکت‌های گلیچ، ویدیوهای میم، غافلگیری ریک‌رول و یک فرم استخدام طنز. چیزهای عجیب اینجا جدی گرفته می‌شن.'
               : 'Wormhole is an experimental React playground packed with glitches, meme videos, Rickroll surprises, and a parody hiring form. Strange ideas are welcome.'}</p>
             <DemolitionTeaser language={language} href={import.meta.env.BASE_URL + (language === "en" ? "en/" : "") + "experiments/page-demolition/"} />
+            <MouseVirusTeaser language={language} href={import.meta.env.BASE_URL + (language === "en" ? "en/" : "") + "experiments/mouse-virus/"} />
             <a href="#hiring">{language === 'fa' ? 'فرم استخدام غیرجدی ↓' : 'The extremely serious careers portal ↓'}</a>
           </div>
         </section>

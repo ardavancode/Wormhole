@@ -23,7 +23,8 @@
     "react-dom": "^19.3.1",
     "@wormhole/hiring-form": "0.1.0",
     "@wormhole/language-toggle": "0.1.0",
-    "@wormhole/page-demolition": "0.1.0"
+    "@wormhole/page-demolition": "0.1.0",
+    "@wormhole/mouse-virus": "0.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.12",

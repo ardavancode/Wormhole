@@ -21,4 +21,14 @@
     <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/page-demolition/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/page-demolition/" />
   </url>
+  <url>
+    <loc>https://ardavancode.github.io/Wormhole/experiments/mouse-virus/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/mouse-virus/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/mouse-virus/" />
+  </url>
+  <url>
+    <loc>https://ardavancode.github.io/Wormhole/en/experiments/mouse-virus/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/mouse-virus/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/mouse-virus/" />
+  </url>
 </urlset>
