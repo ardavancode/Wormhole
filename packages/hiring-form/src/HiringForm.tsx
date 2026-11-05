@@ -181,7 +181,7 @@ export function HiringForm() {
               <div className="wh-hiring-fields">
                 <label>
                   YOUR NAME
-                  <input type="text" autoComplete="name" value={name} onChange={(event) => { setName(event.target.value); setPreview(false) }} placeholder="Name (optional in the simulation)" required />
+                  <input type="text" autoComplete="name" value={name} onChange={(event) => { setName(event.target.value); setPreview(false) }} placeholder="Your full name" required />
                 </label>
                 <label>
                   EMAIL ADDRESS
