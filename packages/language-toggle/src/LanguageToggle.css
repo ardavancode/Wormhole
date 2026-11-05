@@ -1,0 +1,30 @@
+.wh-language-toggle {
+  position: fixed;
+  z-index: 110;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #090a10ec;
+  border: 1px solid #f0de60;
+  color: #f0de60;
+  padding: 5px;
+  box-shadow: 4px 4px 0 #fc459c80;
+  font-family: Tahoma, system-ui, sans-serif;
+}
+.wh-language-toggle button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 9px 12px;
+  font-weight: 800;
+  font-size: 13px;
+}
+.wh-language-toggle button[aria-pressed="true"] {
+  background: #f0de60;
+  color: #121212;
+}
+.wh-language-toggle button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.wh-language-toggle > span { opacity: .5; font-size: 11px; }
