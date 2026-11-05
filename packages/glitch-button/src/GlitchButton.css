@@ -1,0 +1,88 @@
+.wh-glitch-button {
+  --wh-glitch-accent: #c6ff76;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 52px;
+  padding: 13px 24px;
+  border: 1px solid var(--wh-glitch-accent);
+  border-radius: 4px;
+  background: #121623;
+  color: var(--wh-glitch-accent);
+  font: 700 12px/1.3 'Space Grotesk', ui-monospace, monospace;
+  letter-spacing: .14em;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #49532e;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.wh-glitch-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #49532e;
+}
+
+.wh-glitch-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #49532e;
+}
+
+.wh-glitch-button:focus-visible {
+  outline: 3px solid #f0b1ff;
+  outline-offset: 5px;
+}
+
+.wh-glitch-button:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+  box-shadow: none;
+}
+
+.wh-glitch-button__arrow { font-size: 20px; line-height: 1; }
+
+.wh-glitch-button::before,
+.wh-glitch-button::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--wh-glitch-accent);
+  background: #121623;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wh-glitch-button:hover:not(:disabled)::before,
+.wh-glitch-button:focus-visible::before {
+  opacity: .85;
+  color: #ff75db;
+  animation: wh-glitch-before 450ms steps(2, end) infinite;
+}
+.wh-glitch-button:hover:not(:disabled)::after,
+.wh-glitch-button:focus-visible::after {
+  opacity: .8;
+  color: #86f8ff;
+  animation: wh-glitch-after 400ms steps(2, end) infinite reverse;
+}
+
+@keyframes wh-glitch-before {
+  0%, 100% { clip-path: inset(0 0 75% 0); transform: translate(-3px, -1px); }
+  33% { clip-path: inset(42% 0 40% 0); transform: translate(3px, 0); }
+  66% { clip-path: inset(78% 0 0 0); transform: translate(-2px, 2px); }
+}
+@keyframes wh-glitch-after {
+  0%, 100% { clip-path: inset(75% 0 0 0); transform: translate(2px, 0); }
+  33% { clip-path: inset(0 0 70% 0); transform: translate(-2px, 2px); }
+  66% { clip-path: inset(40% 0 40% 0); transform: translate(3px, -2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wh-glitch-button, .wh-glitch-button::before, .wh-glitch-button::after {
+    animation: none !important;
+    transition: none;
+  }
+  .wh-glitch-button::before, .wh-glitch-button::after { display: none; }
+}

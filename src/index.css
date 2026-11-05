@@ -87,3 +87,6 @@ h1 em { font-style: normal; color: #b99af6; }
   .orbit-ring-one, .orbit-ring-two { animation: none; }
   .experiment-button { transition: none; }
 }
+
+.package-demo { display: grid; justify-items: center; gap: 12px; margin-top: 34px; }
+.package-label { margin: 0; color: #a89abc; font-size: 10px; letter-spacing: .18em; font-weight: 700; }

@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { GlitchButton } from '@wormhole/glitch-button'
+import '@wormhole/glitch-button/style.css'
 
 export default function App() {
   const [experiments, setExperiments] = useState(0)
+
+  const launchExperiment = () => setExperiments((count) => count + 1)
 
   return (
     <main className="page">
@@ -33,7 +37,7 @@ export default function App() {
         <button
           className="experiment-button"
           type="button"
-          onClick={() => setExperiments((count) => count + 1)}
+          onClick={launchExperiment}
         >
           <span>Run an experiment</span>
           <span aria-hidden="true">↗</span>
@@ -44,10 +48,15 @@ export default function App() {
             ? 'No experiments yet. You know what to do.'
             : `${experiments} experiment${experiments === 1 ? '' : 's'} launched. Keep going.`}
         </p>
+
+        <div className="package-demo">
+          <p className="package-label">PACKAGE 001 / GLITCH BUTTON</p>
+          <GlitchButton label="ENTER THE VOID" onClick={launchExperiment} />
+        </div>
       </section>
 
       <footer className="footer">
-        <span>REACT + VITE</span>
+        <span>REACT + TYPESCRIPT + VITE</span>
         <span>BUILT FOR CHAOS <span aria-hidden="true">✦</span></span>
       </footer>
     </main>
