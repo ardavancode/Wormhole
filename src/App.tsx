@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { AdolfoRonaldo } from '@wormhole/adolfo-ronaldo'
+import { useCallback, useEffect, useState } from 'react'
+import type { ComponentType } from 'react'
 import { GlitchButton } from '@wormhole/glitch-button'
 import { RickrollLauncher } from '@wormhole/rickroll-launcher'
 import { HiringForm } from '@wormhole/hiring-form'
@@ -16,6 +16,18 @@ import '@wormhole/page-demolition/style.css'
 import '@wormhole/mouse-virus/style.css'
 
 export default function App() {
+  // Keep the rest of the site usable even if the reel chunk cannot load.
+  const [Reel, setReel] = useState<ComponentType<{ language?: Language }> | null>(null)
+  const [reelFailed, setReelFailed] = useState(false)
+
+  const loadReel = useCallback(() => {
+    setReelFailed(false)
+    void import('@wormhole/adolfo-ronaldo')
+      .then(({ AdolfoRonaldo }) => setReel(() => AdolfoRonaldo))
+      .catch(() => setReelFailed(true))
+  }, [])
+
+  useEffect(() => { loadReel() }, [loadReel])
   // Give every language its own real URL, so search engines can index both.
   const language: Language = /\/en\/?(?:index\.html)?$/.test(window.location.pathname) ? 'en' : 'fa'
 
@@ -39,7 +51,25 @@ export default function App() {
     <>
       <LanguageToggle language={language} onChange={switchLanguage} />
       <main>
-        <AdolfoRonaldo language={language} />
+        {Reel ? <Reel language={language} /> : (
+          <section className="ar-stage" aria-label={language === 'fa' ? 'آدولفو رونالدو' : 'Adolfo Ronaldo'}>
+            <p className="ar-corner ar-corner--top">WORMHOLE // SAFE MODE</p>
+            <div className="ar-title-block">
+              <h1>{language === 'fa' ? 'آدولفو' : 'ADOLFO'}<br /><em>{language === 'fa' ? 'رونالدو' : 'RONALDO'}</em></h1>
+            </div>
+            <div className="ar-start">
+              <p className="ar-start__help">{reelFailed
+                ? (language === 'fa' ? 'ویدیو بارگذاری نشد، ولی بقیهٔ ورم‌هول فعاله.' : "The reel couldn't load, but the rest of Wormhole still works.")
+                : (language === 'fa' ? 'در حال آماده‌سازی ویدیو…' : 'Preparing the reel…')}</p>
+              {reelFailed && <button type="button" className="ar-start__button" onClick={loadReel}>
+                {language === 'fa' ? '↻ تلاش دوباره' : '↻ RETRY'}
+              </button>}
+              <a href="#wormhole-about-title" className="ar-start__button" style={{ textDecoration: 'none' }}>
+                {language === 'fa' ? 'برو به آزمایش‌ها ↓' : 'EXPLORE EXPERIMENTS ↓'}
+              </a>
+            </div>
+          </section>
+        )}
         <section className="wormhole-about" aria-labelledby="wormhole-about-title">
           <div>
             <p className="wormhole-about__eyebrow">{language === 'fa' ? 'WORMHOLE // آزمایشگاه اینترنتی' : 'WORMHOLE // INTERNET LAB'}</p>
