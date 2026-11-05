@@ -16,7 +16,7 @@
     "typecheck": "npm run build:packages && tsc --noEmit"
   },
   "dependencies": {
-    "@wormhole/glitch-button": "0.1.0",
+    "@wormhole/adolfo-ronaldo": "0.1.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

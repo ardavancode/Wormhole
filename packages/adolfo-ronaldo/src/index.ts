@@ -1,0 +1,1 @@
+export { AdolfoRonaldo } from './AdolfoRonaldo'
