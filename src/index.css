@@ -30,3 +30,10 @@ button, input { font: inherit; }
     transform-origin: left center;
   }
 }
+
+/* Keep the irregular composition while improving Persian text layout. */
+html[lang="fa"] { font-family: Tahoma, system-ui, sans-serif; }
+html[lang="fa"] .ar-title-block h1,
+html[lang="fa"] .wh-hiring-footer__button,
+html[lang="fa"] .wh-hiring-dialog__head h2,
+html[lang="fa"] .wh-glitch-void__title { letter-spacing: 0; line-height: 1.3; }

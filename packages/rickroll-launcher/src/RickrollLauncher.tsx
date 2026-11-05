@@ -5,7 +5,8 @@ import './RickrollLauncher.css'
 const VIDEO_URL =
   'rickroll.mp4'
 
-export function RickrollLauncher() {
+export function RickrollLauncher({ language = 'en' }: { language?: 'fa' | 'en' }) {
+  const fa = language === 'fa'
   const [open, setOpen] = useState(false)
   const [needsTap, setNeedsTap] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -62,14 +63,14 @@ export function RickrollLauncher() {
         aria-expanded={open}
       >
         <span aria-hidden="true" className="rr-launcher__spark">✳</span>
-        شروع
+        {fa ? "شروع" : "START"}
         <span aria-hidden="true">↗</span>
       </button>
       {createPortal(
         <div
           className={open ? 'rr-overlay rr-overlay--open' : 'rr-overlay'}
           role={open ? 'dialog' : undefined}
-          aria-label={open ? 'ویدیو' : undefined}
+          aria-label={open ? (fa ? 'ویدیو' : 'Video') : undefined}
           aria-modal={open ? true : undefined}
           aria-hidden={!open}
         >
@@ -82,7 +83,7 @@ export function RickrollLauncher() {
             onEnded={close}
           />
           <button className="rr-overlay__close" type="button" onClick={close}>
-            بستن ×
+            {fa ? "بستن ×" : "CLOSE ×"}
           </button>
           {needsTap && (
             <button
@@ -92,7 +93,7 @@ export function RickrollLauncher() {
                 void videoRef.current?.play().then(() => setNeedsTap(false))
               }}
             >
-              ▶ پخش ویدیو
+              {fa ? "▶ پخش ویدیو" : "▶ PLAY VIDEO"}
             </button>
           )}
         </div>,

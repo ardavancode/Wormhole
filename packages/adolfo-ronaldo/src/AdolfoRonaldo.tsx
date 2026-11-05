@@ -6,7 +6,8 @@ import './AdolfoRonaldo.css'
 // Source media belongs in this package's media/ directory.
 const hostedReel = 'adolfo-ronaldo.mp4'
 
-export function AdolfoRonaldo() {
+export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
+  const fa = language === 'fa'
   const videoRef = useRef<HTMLVideoElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const localUrl = useRef<string | null>(null)
@@ -62,7 +63,7 @@ export function AdolfoRonaldo() {
   }
 
   return (
-    <section className="ar-stage" aria-label="Adolfo Ronaldo meme reel">
+    <section className="ar-stage" dir={fa ? "rtl" : "ltr"} aria-label={fa ? "ویدیوی طنز آدولفو رونالدو" : "Adolfo Ronaldo meme reel"}>
       <video
         ref={videoRef}
         className="ar-video"
@@ -78,38 +79,38 @@ export function AdolfoRonaldo() {
       <audio ref={audioRef} src={source} loop preload="auto" />
       <div className="ar-grain" aria-hidden="true" />
       <div className="ar-shade" aria-hidden="true" />
-      <p className="ar-corner ar-corner--top">WORMHOLE // LOST TIMELINE</p>
+      <p className="ar-corner ar-corner--top">{fa ? "ورم‌هول // خط زمانی گمشده" : "WORMHOLE // LOST TIMELINE"}</p>
       <div className="ar-title-block" aria-hidden="true">
-        <span className="ar-before">a very serious presentation of</span>
-        <h1>ADOLFO<br /><em>RONALDO</em></h1>
-        <span className="ar-after">TIME IS AN ILLUSION ↗</span>
+        <span className="ar-before">{fa ? "یک نمایش کاملاً جدی از" : "a very serious presentation of"}</span>
+        <h1>{fa ? "آدولفو" : "ADOLFO"}<br /><em>{fa ? "رونالدو" : "RONALDO"}</em></h1>
+        <span className="ar-after">{fa ? "زمان فقط یک توهمه ↗" : "TIME IS AN ILLUSION ↗"}</span>
       </div>
 
       {!playing && (
         <div className="ar-start">
-          <span className="ar-start__index">EXHIBIT 001 — 00:10</span>
+          <span className="ar-start__index">{fa ? "نمایش ۰۰۱ — ۰۰:۱۰" : "EXHIBIT 001 — 00:10"}</span>
           {unavailable ? (
             <>
               <p className="ar-start__help">
-                Media isn't hosted yet. Choose the supplied video to watch locally.
+                {fa ? "ویدیو فعلاً روی سایت در دسترس نیست؛ فایل رو از دستگاهت انتخاب کن." : "Media isn't hosted yet. Choose the supplied video to watch locally."}
               </p>
               <label className="ar-start__button ar-start__upload">
-                CHOOSE THE REEL ↗
+                {fa ? "انتخاب ویدیو ↗" : "CHOOSE THE REEL ↗"}
                 <input type="file" accept="video/mp4,video/*" onChange={onChooseFile} />
               </label>
             </>
           ) : (
             <button className="ar-start__button" onClick={play} type="button">
-              PLAY WITH SOUND ↗
+              {fa ? "پخش با صدا ↗" : "PLAY WITH SOUND ↗"}
             </button>
           )}
-          <span className="ar-start__hint">tap to enter the timeline</span>
+          <span className="ar-start__hint">{fa ? "برای ورود لمس کن" : "tap to enter the timeline"}</span>
         </div>
       )}
 
       <div className="ar-controls">
-        {playing && <button type="button" onClick={toggleMute}>{muted ? 'SOUND OFF ◻' : 'SOUND ON ◉'}</button>}
-        <span>06 FRAGMENTS / 01 SONG</span>
+        {playing && <button type="button" onClick={toggleMute}>{muted ? (fa ? 'صدا خاموش ◻' : 'SOUND OFF ◻') : (fa ? 'صدا روشن ◉' : 'SOUND ON ◉')}</button>}
+        <span>{fa ? "۶ تصویر / ۱ آهنگ" : "06 FRAGMENTS / 01 SONG"}</span>
       </div>
     </section>
   )

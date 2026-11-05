@@ -15,10 +15,12 @@ const randomJump = (): Jump => ({
 export type GlitchButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   /** Label shown on the button and during the glitch sequence. */
   label?: string
+  language?: "en" | "fa"
 }
 
 export function GlitchButton({
   label = 'ENTER THE VOID',
+  language = 'en',
   className = '',
   type = 'button',
   onClick,
@@ -118,7 +120,7 @@ export function GlitchButton({
           className="wh-glitch-void"
           role="dialog"
           aria-modal="true"
-          aria-label="Glitch dimension. Double click or double tap to return."
+          aria-label={language === "fa" ? "دنیای گلیچ. برای برگشت دو بار لمس یا کلیک کنید." : "Glitch dimension. Double click or double tap to return."}
           tabIndex={-1}
           onPointerUp={handleVoidPointerUp}
           onKeyDown={(event) => {
@@ -130,13 +132,13 @@ export function GlitchButton({
         >
           <div className="wh-glitch-void__noise" aria-hidden="true" />
           <div className="wh-glitch-void__content">
-            <p className="wh-glitch-void__eyebrow">WORMHOLE / SIGNAL CORRUPTED</p>
-            <h2 className="wh-glitch-void__title" data-text="SYSTEM // LOST">
-              SYSTEM // LOST
+            <p className="wh-glitch-void__eyebrow">{language === "fa" ? "ورم‌هول / سیگنال خراب شد" : "WORMHOLE / SIGNAL CORRUPTED"}</p>
+            <h2 className="wh-glitch-void__title" data-text={language === "fa" ? "سیستم // گم شد" : "SYSTEM // LOST"}>
+              {language === "fa" ? "سیستم // گم شد" : "SYSTEM // LOST"}
             </h2>
-            <p className="wh-glitch-void__message">REALITY.EXE HAS STOPPED RESPONDING</p>
-            <p className="wh-glitch-void__return">DOUBLE CLICK / DOUBLE TAP TO RETURN</p>
-            <p className="wh-glitch-void__escape">ESC TO ESCAPE</p>
+            <p className="wh-glitch-void__message">{language === "fa" ? "واقعیت دیگر پاسخ نمی‌دهد" : "REALITY.EXE HAS STOPPED RESPONDING"}</p>
+            <p className="wh-glitch-void__return">{language === "fa" ? "برای بازگشت دو بار کلیک یا لمس کن" : "DOUBLE CLICK / DOUBLE TAP TO RETURN"}</p>
+            <p className="wh-glitch-void__escape">{language === "fa" ? "برای خروج ESC بزن" : "ESC TO ESCAPE"}</p>
           </div>
         </div>
       ),
