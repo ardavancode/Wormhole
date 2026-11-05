@@ -26,13 +26,60 @@ export function HiringForm() {
   const launchRef = useRef<HTMLButtonElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
+  const videoRefs = useRef<Record<Position, HTMLVideoElement | null>>({
+    '10-cents': null,
+    'wage-slave': null,
+  })
   const videoSource = localVideo ?? HIRING_VIDEO
+
+  const stopVideos = () => {
+    Object.values(videoRefs.current).forEach((video) => {
+      if (!video) return
+      video.pause()
+      video.currentTime = 0
+    })
+  }
+
+  const closeForm = () => {
+    stopVideos()
+    setPosition('')
+    setOpen(false)
+  }
+
+  const choosePosition = (next: Position) => {
+    setPosition(next)
+    setPreview(false)
+
+    for (const [id, video] of Object.entries(videoRefs.current)) {
+      if (!video) continue
+      video.pause()
+      video.currentTime = 0
+      if (id === next) {
+        // A radio click is a user gesture, so start immediately with sound.
+        video.muted = false
+        void video.play().catch(() => {
+          // Some browsers may still restrict sound; keep the clip playing muted.
+          video.muted = true
+          void video.play().catch(() => {})
+        })
+      }
+    }
+  }
 
   useEffect(() => {
     return () => {
       if (localVideo) URL.revokeObjectURL(localVideo)
     }
   }, [localVideo])
+
+  useEffect(() => {
+    if (!open || !position || !localVideo) return
+    const video = videoRefs.current[position]
+    if (!video) return
+    // New local media is inserted on render, so start it once the source updates.
+    video.muted = true
+    void video.play().catch(() => {})
+  }, [localVideo, open, position])
 
   useEffect(() => {
     if (!open) return
@@ -43,7 +90,7 @@ export function HiringForm() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault()
-        setOpen(false)
+        closeForm()
       }
       if (event.key !== 'Tab') return
       const focusable = Array.from(
@@ -108,11 +155,13 @@ export function HiringForm() {
         <span className="wh-hiring-footer__fineprint">GREAT OPPORTUNITIES. QUESTIONABLE COMPENSATION.</span>
       </footer>
 
-      {open && createPortal(
+      {createPortal(
         <div
           className="wh-hiring-backdrop"
+          aria-hidden={!open}
+          inert={!open}
           onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setOpen(false)
+            if (event.target === event.currentTarget) closeForm()
           }}
         >
           <div
@@ -122,7 +171,7 @@ export function HiringForm() {
             aria-modal="true"
             aria-labelledby="wh-hiring-title"
           >
-            <button ref={closeRef} className="wh-hiring-dialog__close" type="button" onClick={() => setOpen(false)} aria-label="Close application form">×</button>
+            <button ref={closeRef} className="wh-hiring-dialog__close" type="button" onClick={closeForm} aria-label="Close application form">×</button>
 
             <header className="wh-hiring-dialog__head">
               <span className="wh-hiring-dialog__overline">OFFICIAL WORMHOLE RECRUITMENT PORTAL</span>
@@ -144,12 +193,11 @@ export function HiringForm() {
                           </div>
                         ) : (
                           <video
+                            ref={(element) => { videoRefs.current[item.id] = element }}
                             src={videoSource}
                             playsInline
-                            muted
-                            autoPlay
                             loop
-                            preload="metadata"
+                            preload="auto"
                             onError={() => setVideoMissing(true)}
                           />
                         )}
@@ -161,7 +209,7 @@ export function HiringForm() {
                           name="position"
                           value={item.id}
                           checked={position === item.id}
-                          onChange={() => { setPosition(item.id); setPreview(false) }}
+                          onChange={() => choosePosition(item.id)}
                           required
                         />
                         <strong>{item.label}</strong>

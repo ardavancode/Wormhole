@@ -14,3 +14,9 @@ import '@wormhole/hiring-form/style.css'
 
 <HiringForm />
 ```
+
+## Faster preview playback
+
+The dialog stays mounted (but inert and invisible while closed), allowing browser video preloading before the footer button is pressed. Both clips remain paused until a wage option is selected. Selecting an option immediately plays that option's video, attempting sound during the radio click and falling back to mute if browser policy blocks audio. Changing the option pauses and rewinds the previous preview. No native video controls are shown.
+
+**Important:** `public/hiring-video.mp4` still needs to be added to the repository for hosted playback to work. The local file picker remains available when the media URL is missing.

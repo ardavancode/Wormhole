@@ -179,3 +179,9 @@
   .wh-hiring-dialog { min-height: 100dvh; }
   .wh-hiring-footer__button { font-size: clamp(41px, 12vw, 86px); }
 }
+
+/* Keep the dialog mounted so both clip buffers can load before opening it. */
+.wh-hiring-backdrop[aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
