@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import './RickrollLauncher.css'
 
 const VIDEO_URL =
-  'https://raw.githubusercontent.com/ardavancode/Wormhole/main/packages/rickroll-launcher/media/rickroll.mp4'
+  '/rickroll.mp4'
 
 export function RickrollLauncher() {
   const [open, setOpen] = useState(false)
@@ -27,7 +27,6 @@ export function RickrollLauncher() {
     if (!video) return
 
     video.currentTime = 0
-    video.playbackRate = 1.5
     video.muted = false
 
     // Start from the actual click/touch event so sound can play on mobile.
@@ -80,7 +79,6 @@ export function RickrollLauncher() {
             src={VIDEO_URL}
             playsInline
             preload="auto"
-            controls
             onEnded={close}
           />
           <button className="rr-overlay__close" type="button" onClick={close}>

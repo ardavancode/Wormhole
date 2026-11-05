@@ -6,7 +6,7 @@ Independent TypeScript/React workspace for the floating **شروع** button.
 - Video ends → the overlay closes; users can also press **بستن** or Escape.
 - Plays inline on mobile to avoid switching to the browser's native fullscreen player.
 - If autoplay is blocked, a secondary **پخش ویدیو** button appears.
-- Original media is stored in `media/rickroll.mp4` in this package and served from the repository's raw GitHub URL.
+- Original media stays in `media/rickroll.mp4`; a copy at `public/rickroll.mp4` is served by the site's own CDN for faster startup.
 
 ```tsx
 import { RickrollLauncher } from '@wormhole/rickroll-launcher'
