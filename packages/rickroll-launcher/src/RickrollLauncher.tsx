@@ -27,6 +27,7 @@ export function RickrollLauncher() {
     if (!video) return
 
     video.currentTime = 0
+    video.playbackRate = 1.5
     video.muted = false
 
     // Start from the actual click/touch event so sound can play on mobile.
@@ -78,7 +79,7 @@ export function RickrollLauncher() {
             className="rr-overlay__video"
             src={VIDEO_URL}
             playsInline
-            preload="none"
+            preload="auto"
             controls
             onEnded={close}
           />
