@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { fileURLToPath } from 'node:url'
 
 export default defineConfig(({ mode }) => ({
   plugins: [react()],
@@ -10,8 +9,8 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       // Separate, crawlable URLs for Persian and English.
       input: {
-        fa: fileURLToPath(new URL('./index.html', import.meta.url)),
-        en: fileURLToPath(new URL('./en/index.html', import.meta.url)),
+        fa: 'index.html',
+        en: 'en/index.html',
       },
     },
   },
