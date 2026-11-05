@@ -79,7 +79,7 @@ export function RickrollLauncher({ language = 'en' }: { language?: 'fa' | 'en' }
             className="rr-overlay__video"
             src={VIDEO_URL}
             playsInline
-            preload="auto"
+            preload="none"
             onEnded={close}
           />
           <button className="rr-overlay__close" type="button" onClick={close}>

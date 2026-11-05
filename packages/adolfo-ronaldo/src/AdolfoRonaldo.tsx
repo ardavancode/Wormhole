@@ -15,6 +15,8 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
   const [unavailable, setUnavailable] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(false)
+  const [playError, setPlayError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => () => {
     if (localUrl.current) URL.revokeObjectURL(localUrl.current)
@@ -25,6 +27,8 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
     const audio = audioRef.current
     if (!video || !audio) return
 
+    setPlayError(false)
+    setLoading(true)
     video.currentTime = 0
     audio.currentTime = 0
     video.playbackRate = 0.6 // Image transitions are 40% slower.
@@ -37,11 +41,16 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
     const videoStart = video.play()
     const audioStart = audio.play()
     void Promise.all([videoStart, audioStart])
-      .then(() => setPlaying(true))
+      .then(() => {
+        setLoading(false)
+        setPlaying(true)
+      })
       .catch(() => {
         video.pause()
         audio.pause()
+        setLoading(false)
         setPlaying(false)
+        setPlayError(true)
       })
   }
 
@@ -52,6 +61,8 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
     const next = URL.createObjectURL(file)
     localUrl.current = next
     setUnavailable(false)
+    setPlayError(false)
+    setLoading(false)
     setPlaying(false)
     setSource(next)
   }
@@ -71,12 +82,12 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
         playsInline
         muted
         loop
-        preload="auto"
-        onError={() => { setUnavailable(true); setPlaying(false) }}
+        preload="none"
+        onError={() => { setUnavailable(true); setLoading(false); setPlaying(false) }}
         onPause={() => setPlaying(false)}
         onPlay={() => setPlaying(true)}
       />
-      <audio ref={audioRef} src={source} loop preload="auto" />
+      <audio ref={audioRef} src={source} loop preload="none" />
       <div className="ar-grain" aria-hidden="true" />
       <div className="ar-shade" aria-hidden="true" />
       <p className="ar-corner ar-corner--top">{fa ? "ورم‌هول // خط زمانی گمشده" : "WORMHOLE // LOST TIMELINE"}</p>
@@ -89,19 +100,22 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
       {!playing && (
         <div className="ar-start">
           <span className="ar-start__index">{fa ? "نمایش ۰۰۱ — ۰۰:۱۰" : "EXHIBIT 001 — 00:10"}</span>
-          {unavailable ? (
+          {unavailable || playError ? (
             <>
               <p className="ar-start__help">
-                {fa ? "ویدیو فعلاً روی سایت در دسترس نیست؛ فایل رو از دستگاهت انتخاب کن." : "Media isn't hosted yet. Choose the supplied video to watch locally."}
+                {unavailable
+                  ? (fa ? "ویدیو لود نشد؛ فایل رو از دستگاهت انتخاب کن." : "The hosted video could not be loaded. Choose a local video.")
+                  : (fa ? "پخش نشد؛ دوباره تلاش کن یا ویدیوی خودت رو انتخاب کن." : "Playback failed. Try again or choose a local video.")}
               </p>
+              {playError && !unavailable && <button type="button" className="ar-start__button" onClick={play}>{fa ? "↻ تلاش مجدد" : "↻ RETRY PLAYBACK"}</button>}
               <label className="ar-start__button ar-start__upload">
                 {fa ? "انتخاب ویدیو ↗" : "CHOOSE THE REEL ↗"}
                 <input type="file" accept="video/mp4,video/*" onChange={onChooseFile} />
               </label>
             </>
           ) : (
-            <button className="ar-start__button" onClick={play} type="button">
-              {fa ? "پخش با صدا ↗" : "PLAY WITH SOUND ↗"}
+            <button className="ar-start__button" onClick={play} type="button" disabled={loading}>
+              {loading ? (fa ? "در حال بارگذاری…" : "LOADING…") : (fa ? "پخش با صدا ↗" : "PLAY WITH SOUND ↗")}
             </button>
           )}
           <span className="ar-start__hint">{fa ? "برای ورود لمس کن" : "tap to enter the timeline"}</span>

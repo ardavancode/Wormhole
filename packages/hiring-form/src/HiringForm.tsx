@@ -199,7 +199,7 @@ export function HiringForm({ language = 'en' }: { language?: 'fa' | 'en' }) {
                             src={videoSource}
                             playsInline
                             loop
-                            preload="auto"
+                            preload="none"
                             onError={() => setVideoMissing(true)}
                           />
                         )}
