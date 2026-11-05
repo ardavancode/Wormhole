@@ -80,7 +80,7 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
       <div className="ar-grain" aria-hidden="true" />
       <div className="ar-shade" aria-hidden="true" />
       <p className="ar-corner ar-corner--top">{fa ? "ورم‌هول // خط زمانی گمشده" : "WORMHOLE // LOST TIMELINE"}</p>
-      <div className="ar-title-block" aria-hidden="true">
+      <div className="ar-title-block">
         <span className="ar-before">{fa ? "یک نمایش کاملاً جدی از" : "a very serious presentation of"}</span>
         <h1>{fa ? "آدولفو" : "ADOLFO"}<br /><em>{fa ? "رونالدو" : "RONALDO"}</em></h1>
         <span className="ar-after">{fa ? "زمان فقط یک توهمه ↗" : "TIME IS AN ILLUSION ↗"}</span>

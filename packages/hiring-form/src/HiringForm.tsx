@@ -140,7 +140,7 @@ export function HiringForm({ language = 'en' }: { language?: 'fa' | 'en' }) {
 
   return (
     <>
-      <footer className="wh-hiring-footer" dir={fa ? "rtl" : "ltr"}>
+      <footer id="hiring" className="wh-hiring-footer" dir={fa ? "rtl" : "ltr"}>
         <span className="wh-hiring-footer__eyebrow">{fa ? "ورم‌هول // فرصت‌های شغلی // کاملاً معتبر!" : "WORMHOLE // CAREERS // DEFINITELY LEGIT"}</span>
         <button
           ref={launchRef}
