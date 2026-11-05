@@ -20,7 +20,8 @@
     "@wormhole/glitch-button": "0.2.0",
     "@wormhole/rickroll-launcher": "0.1.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "@wormhole/hiring-form": "0.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.12",
