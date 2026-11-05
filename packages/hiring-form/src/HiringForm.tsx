@@ -8,13 +8,14 @@ import './HiringForm.css'
 const HIRING_VIDEO = 'hiring-video.mp4'
 
 const positions = [
-  { id: '10-cents', label: '10 cents for 1 hour', number: '01' },
-  { id: 'wage-slave', label: 'Iranian wage slave', number: '02' },
+  { id: '10-cents', label: '10 cents for 1 hour', labelFa: '۱۰ سنت برای یک ساعت', number: '01' },
+  { id: 'wage-slave', label: 'Iranian wage slave', labelFa: 'بردهٔ دستمزدبگیر ایرانی', number: '02' },
 ] as const
 
 type Position = (typeof positions)[number]['id']
 
-export function HiringForm() {
+export function HiringForm({ language = 'en' }: { language?: 'fa' | 'en' }) {
+  const fa = language === 'fa'
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState<Position | ''>('')
   const [resume, setResume] = useState<File | null>(null)
@@ -139,8 +140,8 @@ export function HiringForm() {
 
   return (
     <>
-      <footer className="wh-hiring-footer">
-        <span className="wh-hiring-footer__eyebrow">WORMHOLE // CAREERS // DEFINITELY LEGIT</span>
+      <footer className="wh-hiring-footer" dir={fa ? "rtl" : "ltr"}>
+        <span className="wh-hiring-footer__eyebrow">{fa ? "ورم‌هول // فرصت‌های شغلی // کاملاً معتبر!" : "WORMHOLE // CAREERS // DEFINITELY LEGIT"}</span>
         <button
           ref={launchRef}
           className="wh-hiring-footer__button"
@@ -149,10 +150,10 @@ export function HiringForm() {
           aria-haspopup="dialog"
           aria-expanded={open}
         >
-          <span>WE ARE HIRING</span>
+          <span>{fa ? "ما استخدام می‌کنیم" : "WE ARE HIRING"}</span>
           <span aria-hidden="true">↗</span>
         </button>
-        <span className="wh-hiring-footer__fineprint">GREAT OPPORTUNITIES. QUESTIONABLE COMPENSATION.</span>
+        <span className="wh-hiring-footer__fineprint">{fa ? "فرصت‌های عالی؛ دستمزدهای مشکوک." : "GREAT OPPORTUNITIES. QUESTIONABLE COMPENSATION."}</span>
       </footer>
 
       {createPortal(
@@ -167,21 +168,22 @@ export function HiringForm() {
           <div
             ref={dialogRef}
             className="wh-hiring-dialog"
+            dir={fa ? "rtl" : "ltr"}
             role="dialog"
             aria-modal="true"
             aria-labelledby="wh-hiring-title"
           >
-            <button ref={closeRef} className="wh-hiring-dialog__close" type="button" onClick={closeForm} aria-label="Close application form">×</button>
+            <button ref={closeRef} className="wh-hiring-dialog__close" type="button" onClick={closeForm} aria-label={fa ? "بستن فرم استخدام" : "Close application form"}>×</button>
 
             <header className="wh-hiring-dialog__head">
-              <span className="wh-hiring-dialog__overline">OFFICIAL WORMHOLE RECRUITMENT PORTAL</span>
-              <h2 id="wh-hiring-title">JOIN THE <em>TEAM.</em></h2>
-              <p>Two career paths. One extremely suspicious benefits package.</p>
+              <span className="wh-hiring-dialog__overline">{fa ? "درگاه رسمی استخدام ورم‌هول" : "OFFICIAL WORMHOLE RECRUITMENT PORTAL"}</span>
+              <h2 id="wh-hiring-title">{fa ? "به " : "JOIN THE "}<em>{fa ? "تیم بپیوند!" : "TEAM."}</em></h2>
+              <p>{fa ? "دو مسیر شغلی. مزایایی به‌شدت مشکوک." : "Two career paths. One extremely suspicious benefits package."}</p>
             </header>
 
             <form onSubmit={submitPreview}>
               <fieldset className="wh-hiring-positions">
-                <legend>CHOOSE YOUR DESTINY <span aria-hidden="true">↓</span></legend>
+                <legend>{fa ? "سرنوشتت رو انتخاب کن" : "CHOOSE YOUR DESTINY"} <span aria-hidden="true">↓</span></legend>
                 <div className="wh-hiring-positions__grid">
                   {positions.map((item) => (
                     <label key={item.id} className={position === item.id ? 'wh-hiring-position wh-hiring-position--selected' : 'wh-hiring-position'}>
@@ -189,7 +191,7 @@ export function HiringForm() {
                         {videoMissing && !localVideo ? (
                           <div className="wh-hiring-position__missing" aria-label="Video preview unavailable">
                             <span aria-hidden="true">▶</span>
-                            <small>PREVIEW OFFLINE</small>
+                            <small>{fa ? "پیش‌نمایش در دسترس نیست" : "PREVIEW OFFLINE"}</small>
                           </div>
                         ) : (
                           <video
@@ -212,7 +214,7 @@ export function HiringForm() {
                           onChange={() => choosePosition(item.id)}
                           required
                         />
-                        <strong>{item.label}</strong>
+                        <strong title={item.label}>{fa ? item.labelFa : item.label}</strong>
                       </div>
                     </label>
                   ))}
@@ -221,27 +223,27 @@ export function HiringForm() {
 
               {videoMissing && !localVideo && (
                 <label className="wh-hiring-dialog__video-fallback">
-                  The hosted video isn't available yet. Preview the supplied clip locally:
+                  {fa ? "ویدیو فعلاً روی سایت در دسترس نیست؛ از دستگاهت انتخابش کن:" : "The hosted video isn't available yet. Preview the supplied clip locally:"}
                   <input type="file" accept="video/mp4,video/*" onChange={chooseLocalVideo} />
                 </label>
               )}
 
               <div className="wh-hiring-fields">
                 <label>
-                  YOUR NAME
-                  <input type="text" autoComplete="name" value={name} onChange={(event) => { setName(event.target.value); setPreview(false) }} placeholder="Your full name" required />
+                  {fa ? "نام شما" : "YOUR NAME"}
+                  <input type="text" autoComplete="name" value={name} onChange={(event) => { setName(event.target.value); setPreview(false) }} placeholder={fa ? "نام و نام خانوادگی" : "Your full name"} required />
                 </label>
                 <label>
-                  EMAIL ADDRESS
-                  <input type="email" autoComplete="email" value={email} onChange={(event) => { setEmail(event.target.value); setPreview(false) }} placeholder="you@the-void.com" required />
+                  {fa ? "ایمیل" : "EMAIL ADDRESS"}
+                  <input type="email" dir="ltr" autoComplete="email" value={email} onChange={(event) => { setEmail(event.target.value); setPreview(false) }} placeholder="you@the-void.com" required />
                 </label>
               </div>
 
               <div className="wh-hiring-resume">
                 <div>
-                  <span className="wh-hiring-resume__eyebrow">THE PAPERWORK</span>
-                  <h3>YOUR RÉSUMÉ <span>↗</span></h3>
-                  <p>Upload a CV. We promise to look at the filename.</p>
+                  <span className="wh-hiring-resume__eyebrow">{fa ? "کاغذبازی" : "THE PAPERWORK"}</span>
+                  <h3>{fa ? "رزومهٔ شما" : "YOUR RÉSUMÉ"} <span>↗</span></h3>
+                  <p>{fa ? "رزومه‌ات رو آپلود کن. قول می‌دیم اسم فایلش رو نگاه کنیم." : "Upload a CV. We promise to look at the filename."}</p>
                 </div>
                 <label className="wh-hiring-resume__upload">
                   <input
@@ -250,21 +252,26 @@ export function HiringForm() {
                     onChange={chooseResume}
                     required
                   />
-                  <span>+ CHOOSE FILE</span>
-                  <small>{resume ? resume.name : 'PDF, DOC, DOCX OR TXT'}</small>
+                  <span>{fa ? "+ انتخاب فایل" : "+ CHOOSE FILE"}</span>
+                  <small>{resume ? resume.name : (fa ? 'فایل PDF، DOC، DOCX یا TXT' : 'PDF, DOC, DOCX OR TXT')}</small>
                 </label>
               </div>
 
               <button className="wh-hiring-submit" type="submit">
-                PREVIEW APPLICATION <span aria-hidden="true">↗</span>
+                {fa ? "پیش‌نمایش درخواست" : "PREVIEW APPLICATION"} <span aria-hidden="true">↗</span>
               </button>
               {preview && (
                 <p className="wh-hiring-feedback" role="status">
-                  You selected {positions.find((item) => item.id === position)?.label}.
-                  Your résumé ({resume?.name}) is selected locally — nothing was uploaded or sent.
+                  {fa ? (
+                    <>گزینهٔ {positions.find((item) => item.id === position)?.labelFa} انتخاب شد.
+                    رزومهٔ ({resume?.name}) فقط روی دستگاه شما انتخاب شده؛ چیزی ارسال نشده.</>
+                  ) : (
+                    <>You selected {positions.find((item) => item.id === position)?.label}.
+                    Your résumé ({resume?.name}) is selected locally — nothing was uploaded or sent.</>
+                  )}
                 </p>
               )}
-              <p className="wh-hiring-disclaimer">PARODY / DEMO FORM ONLY — NO APPLICATION DATA IS TRANSMITTED.</p>
+              <p className="wh-hiring-disclaimer">{fa ? "این فرم فقط طنز و نمایشی است؛ هیچ اطلاعاتی ارسال نمی‌شود." : "PARODY / DEMO FORM ONLY — NO APPLICATION DATA IS TRANSMITTED."}</p>
             </form>
           </div>
         </div>,
