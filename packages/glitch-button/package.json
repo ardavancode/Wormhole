@@ -1,7 +1,7 @@
 {
   "name": "@wormhole/glitch-button",
-  "version": "0.1.0",
-  "description": "An accessible animated glitch button for the Wormhole playground.",
+  "version": "0.2.0",
+  "description": "An interactive glitch-button and full-screen void experience for Wormhole.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -26,10 +26,12 @@
     "typecheck": "tsc -p tsconfig.build.json --noEmit --emitDeclarationOnly false"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.12",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.2.1",
     "typescript": "^5.9.3",
     "vite": "^8.3.4"

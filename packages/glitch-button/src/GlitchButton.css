@@ -23,23 +23,13 @@
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 #49532e;
 }
-
 .wh-glitch-button:active {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0 #49532e;
 }
-
-.wh-glitch-button:focus-visible {
-  outline: 3px solid #f0b1ff;
-  outline-offset: 5px;
-}
-
-.wh-glitch-button:disabled {
-  cursor: not-allowed;
-  opacity: .45;
-  box-shadow: none;
-}
-
+.wh-glitch-button:focus-visible { outline: 3px solid #f0b1ff; outline-offset: 5px; }
+.wh-glitch-button:disabled { cursor: not-allowed; opacity: .45; box-shadow: none; }
+.wh-glitch-button--vanished { visibility: hidden; }
 .wh-glitch-button__arrow { font-size: 20px; line-height: 1; }
 
 .wh-glitch-button::before,
@@ -54,7 +44,6 @@
   opacity: 0;
   pointer-events: none;
 }
-
 .wh-glitch-button:hover:not(:disabled)::before,
 .wh-glitch-button:focus-visible::before {
   opacity: .85;
@@ -68,6 +57,130 @@
   animation: wh-glitch-after 400ms steps(2, end) infinite reverse;
 }
 
+.wh-glitch-scatter,
+.wh-glitch-void {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  overflow: hidden;
+}
+.wh-glitch-scatter { pointer-events: none; }
+
+.wh-glitch-scatter__echo {
+  position: absolute;
+  left: var(--wh-x);
+  top: var(--wh-y);
+  transform: translate(-50%, -50%) rotate(var(--wh-tilt));
+  color: #c6ff76;
+  background: #121623;
+  border: 1px solid #c6ff76;
+  padding: 15px 25px;
+  white-space: nowrap;
+  font: 800 12px/1.3 'Space Grotesk', ui-monospace, monospace;
+  letter-spacing: .14em;
+  text-shadow: -5px 0 #ff3fc7, 5px 0 #2beaff;
+  box-shadow: -7px 0 0 #ff3fc755, 7px 0 0 #2beaff55;
+  animation: wh-scatter-jolt 150ms steps(2, end) infinite;
+}
+
+.wh-glitch-void {
+  display: grid;
+  place-items: center;
+  cursor: crosshair;
+  touch-action: manipulation;
+  user-select: none;
+  background: #030307;
+  color: #e8e8e8;
+  font-family: 'Space Grotesk', ui-monospace, monospace;
+  outline: none;
+}
+.wh-glitch-void::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent 10%, #87004417 30%, transparent 51%, #0a9aae1b 75%, transparent 90%),
+    repeating-linear-gradient(0deg, transparent 0 3px, #f3f3ff0c 3px 4px);
+  animation: wh-void-screen 2.2s steps(2, end) infinite;
+}
+.wh-glitch-void::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .4;
+  background: repeating-linear-gradient(90deg, transparent 0 18vw, #00e5ff0d 18vw 18.3vw, transparent 18.3vw 25vw);
+  animation: wh-void-shift 1.4s steps(3, end) infinite;
+}
+.wh-glitch-void__noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .2;
+  background: repeating-linear-gradient(0deg, transparent 0 8px, #ff007e 9px 10px, transparent 11px 23px, #52e2ff 24px 25px);
+  animation: wh-void-noise 1.7s steps(4, end) infinite;
+}
+.wh-glitch-void__content {
+  position: relative;
+  width: min(92vw, 1100px);
+  padding: 32px 14px;
+  text-align: center;
+  z-index: 1;
+}
+.wh-glitch-void__eyebrow {
+  margin: 0 0 32px;
+  color: #c6ff76;
+  font: 700 clamp(10px, 1.4vw, 13px)/1.5 ui-monospace, monospace;
+  letter-spacing: .3em;
+}
+.wh-glitch-void__title {
+  position: relative;
+  margin: 0;
+  color: #fff;
+  font: 800 clamp(44px, 11vw, 156px)/.96 'Space Grotesk', ui-monospace, monospace;
+  letter-spacing: -.075em;
+  text-shadow: -4px 0 #ff0070, 4px 0 #00e5ff;
+  animation: wh-void-title 650ms steps(2, end) infinite;
+}
+.wh-glitch-void__title::before,
+.wh-glitch-void__title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.wh-glitch-void__title::before {
+  color: #ff007b;
+  clip-path: inset(4% 0 71% 0);
+  animation: wh-glitch-before 340ms steps(2, end) infinite;
+}
+.wh-glitch-void__title::after {
+  color: #00eeff;
+  clip-path: inset(72% 0 3% 0);
+  animation: wh-glitch-after 520ms steps(2, end) infinite;
+}
+.wh-glitch-void__message {
+  margin: 30px 0 76px;
+  font: 600 clamp(10px, 1.3vw, 13px)/1.5 ui-monospace, monospace;
+  letter-spacing: .18em;
+  color: #b7a4bb;
+}
+.wh-glitch-void__return {
+  margin: 0;
+  color: #c6ff76;
+  font: 700 clamp(11px, 1.6vw, 15px)/1.8 ui-monospace, monospace;
+  letter-spacing: .12em;
+  animation: wh-void-pulse 2s steps(2, end) infinite;
+}
+.wh-glitch-void__escape {
+  margin: 14px 0 0;
+  color: #686977;
+  font: 500 10px/1.5 ui-monospace, monospace;
+  letter-spacing: .17em;
+}
+
 @keyframes wh-glitch-before {
   0%, 100% { clip-path: inset(0 0 75% 0); transform: translate(-3px, -1px); }
   33% { clip-path: inset(42% 0 40% 0); transform: translate(3px, 0); }
@@ -78,11 +191,47 @@
   33% { clip-path: inset(0 0 70% 0); transform: translate(-2px, 2px); }
   66% { clip-path: inset(40% 0 40% 0); transform: translate(3px, -2px); }
 }
-
+@keyframes wh-scatter-jolt {
+  0%, 100% { filter: none; }
+  50% { filter: hue-rotate(90deg); }
+}
+@keyframes wh-void-screen {
+  0%, 88%, 100% { transform: none; opacity: .6; }
+  89% { transform: translateY(16px); opacity: .3; }
+  91% { transform: translateY(-8px); opacity: .75; }
+}
+@keyframes wh-void-shift {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5%); }
+  50% { transform: translateX(8%); }
+  75% { transform: translateX(-2%); }
+}
+@keyframes wh-void-noise {
+  0%, 100% { transform: translateY(-10%); }
+  35% { transform: translateY(20%); }
+  75% { transform: translateY(-20%); }
+}
+@keyframes wh-void-title {
+  0%, 100% { transform: translate(0, 0); }
+  48% { transform: translate(2px, -1px); }
+  50% { transform: translate(-3px, 1px); }
+  52% { transform: translate(0, 0); }
+}
+@keyframes wh-void-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .wh-glitch-button, .wh-glitch-button::before, .wh-glitch-button::after {
+  .wh-glitch-button, .wh-glitch-button::before, .wh-glitch-button::after,
+  .wh-glitch-scatter__echo, .wh-glitch-void, .wh-glitch-void::before,
+  .wh-glitch-void::after, .wh-glitch-void__noise,
+  .wh-glitch-void__title, .wh-glitch-void__title::before,
+  .wh-glitch-void__title::after, .wh-glitch-void__return {
     animation: none !important;
-    transition: none;
+    transition: none !important;
   }
-  .wh-glitch-button::before, .wh-glitch-button::after { display: none; }
+  .wh-glitch-button::before, .wh-glitch-button::after,
+  .wh-glitch-void__title::before, .wh-glitch-void__title::after {
+    display: none;
+  }
 }

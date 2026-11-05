@@ -1,15 +1,8 @@
 # @wormhole/glitch-button
 
-An accessible, type-safe React glitch button. This is an **independent npm workspace package**, with its own manifest, source, CSS, library bundle and TypeScript declaration build.
+A self-contained React + TypeScript package for the Wormhole playground.
 
-## From the monorepo root
-
-```bash
-npm install
-npm run build -w @wormhole/glitch-button
-```
-
-The compiled ESM entry and stylesheet are produced in this package's `dist/` folder. This package is prepared for separate publication later but has **not** been published to npm.
+Click the glitch button to make it teleport randomly around the viewport, then fall into a full-screen glitching void. **Double click or double tap** the void to return; `Escape` works as a keyboard exit. The overlay uses a portal to `document.body` so the experience covers the whole screen.
 
 ## Usage
 
@@ -17,14 +10,16 @@ The compiled ESM entry and stylesheet are produced in this package's `dist/` fol
 import { GlitchButton } from '@wormhole/glitch-button'
 import '@wormhole/glitch-button/style.css'
 
-<GlitchButton
-  label="ENTER THE VOID"
-  onClick={() => console.log('clicked')}
-/>
+<GlitchButton label="ENTER THE VOID" />
 ```
 
-### Props
+The component accepts normal HTML button props and an optional `label`. An `onClick` handler still runs before the glitch sequence (calling `event.preventDefault()` cancels entry).
 
-Extends native HTML button attributes (except `children`). The optional `label` defaults to `ENTER THE VOID`. `onClick`, `disabled`, `aria-*`, `className` and `type` are supported.
+## Build
 
-The hover/focus glitch animation respects `prefers-reduced-motion`. CSS selectors are prefixed with `wh-glitch-button` to avoid collisions.
+```bash
+npm install
+npm run build -w @wormhole/glitch-button
+```
+
+Library output: ESM, CSS, and TypeScript declarations. React and React DOM are peer dependencies. Motion preferences are respected.

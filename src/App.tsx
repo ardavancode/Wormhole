@@ -51,7 +51,7 @@ export default function App() {
 
         <div className="package-demo">
           <p className="package-label">PACKAGE 001 / GLITCH BUTTON</p>
-          <GlitchButton label="ENTER THE VOID" onClick={launchExperiment} />
+          <GlitchButton label="ENTER THE VOID" />
         </div>
       </section>
 
