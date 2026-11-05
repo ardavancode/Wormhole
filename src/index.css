@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #f9f7ff;
+  background: #0a0914;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+body { min-width: 320px; margin: 0; }
+button { font: inherit; }
+a { color: inherit; text-decoration: none; }
+button:focus-visible, a:focus-visible { outline: 3px solid #b19aff; outline-offset: 5px; }
+
+.page {
+  min-height: 100svh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 36px clamp(24px, 6vw, 100px) 28px;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 50% 36%, #21143b 0%, transparent 50%), #0a0914;
+}
+
+.glow {
+  position: absolute;
+  z-index: -1;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  filter: blur(95px);
+  opacity: 0.22;
+  pointer-events: none;
+}
+.glow-one { left: -220px; top: 18%; background: #782dff; }
+.glow-two { right: -250px; bottom: -150px; background: #d147cb; }
+
+.header, .footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.header { position: relative; z-index: 1; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+}
+.brand-icon, .brand-dot { color: #b89aff; }
+.brand-icon { font-size: 30px; line-height: 1; }
+.status { display: inline-flex; align-items: center; gap: 9px; color: #b9b0cf; font-size: 12px; }
+.status-light { width: 7px; height: 7px; border-radius: 50%; background: #79e5af; box-shadow: 0 0 12px #79e5af; }
+
+.hero { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 55px 0 75px; }
+.orbit { position: relative; width: 182px; height: 182px; display: grid; place-items: center; margin-bottom: 34px; }
+.orbit-ring { position: absolute; inset: 8px; border: 1px solid #9d68f5; border-radius: 50%; box-shadow: 0 0 24px #8555ce33, inset 0 0 25px #8555ce22; transform: rotate(-30deg) scaleY(.45); }
+.orbit-ring-one { animation: spin 12s linear infinite; }
+.orbit-ring-two { transform: rotate(45deg) scaleY(.55); animation: spin-alt 15s linear infinite; border-color: #ed80d4; }
+.orbit-core { display: grid; place-items: center; width: 94px; height: 94px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #d3aeff, #7b42dd 50%, #2b1654 82%); box-shadow: 0 0 60px #9e59ea88; font-size: 48px; color: #f9eaff; }
+.eyebrow { color: #c3a3ff; font-size: 11px; font-weight: 700; letter-spacing: .24em; margin: 0 0 19px; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(64px, 9vw, 112px); letter-spacing: -.075em; line-height: .98; margin: 0; font-weight: 700; }
+h1 em { font-style: normal; color: #b99af6; }
+.intro { max-width: 410px; line-height: 1.8; color: #b6afc9; font-size: 15px; margin: 26px 0 30px; }
+.experiment-button { display: inline-flex; justify-content: space-between; align-items: center; gap: 30px; border: 0; border-radius: 999px; background: #e1ceff; color: #1c1031; font-weight: 700; cursor: pointer; padding: 16px 23px; min-width: 240px; box-shadow: 0 12px 44px #a16bdb30; transition: transform .2s, box-shadow .2s; }
+.experiment-button:hover { transform: translateY(-3px); box-shadow: 0 15px 54px #ad75f057; }
+.experiment-count { color: #857a9e; font-size: 12px; min-height: 20px; margin: 18px 0 0; }
+.footer { color: #847a98; font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .16em; }
+.footer span span { color: #b99af6; }
+@keyframes spin { to { transform: rotate(330deg) scaleY(.45); } }
+@keyframes spin-alt { to { transform: rotate(-315deg) scaleY(.55); } }
+@media (max-width: 600px) {
+  .page { padding: 24px 22px; }
+  .brand { font-size: 15px; }
+  .brand-icon { font-size: 25px; }
+  .status { font-size: 0; }
+  .status-light { width: 9px; height: 9px; }
+  .orbit { width: 145px; height: 145px; margin-bottom: 30px; }
+  .orbit-core { width: 78px; height: 78px; font-size: 40px; }
+  .intro { font-size: 14px; max-width: 310px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring-one, .orbit-ring-two { animation: none; }
+  .experiment-button { transition: none; }
+}
