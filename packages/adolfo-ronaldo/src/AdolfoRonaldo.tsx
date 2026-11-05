@@ -4,7 +4,7 @@ import './AdolfoRonaldo.css'
 
 // The soundtrack and six uploaded photos are edited into one synchronized reel.
 // Source media belongs in this package's media/ directory.
-const hostedReel = '/adolfo-ronaldo.mp4'
+const hostedReel = 'adolfo-ronaldo.mp4'
 
 export function AdolfoRonaldo() {
   const videoRef = useRef<HTMLVideoElement>(null)

@@ -50,3 +50,15 @@ See [the package README](packages/glitch-button/README.md) for the standalone bu
 ## Deployments
 
 Cloudflare Pages deploys automatically from the `main` branch to [wormhole-lab.pages.dev](https://wormhole-lab.pages.dev). Production build command: `npm run build`, output: `dist`. No extra Cloudflare config is needed for this static app.
+
+## GitHub Pages fallback (free)
+
+The GitHub Actions workflow at `.github/workflows/github-pages.yml` builds a second
+copy for `https://ardavancode.github.io/Wormhole/`, using Vite's `github-pages`
+mode. Cloudflare Pages continues to use the default `/` base.
+
+Once, in **Settings → Pages → Build and deployment**, set the **Source**
+to **GitHub Actions**. On each push to `main`, GitHub Actions builds and
+publishes the site without merging or changing the Cloudflare configuration.
+Media paths are relative to `<base href="%BASE_URL%">` so they work on both hosts.
+This does not guarantee accessibility on every network.

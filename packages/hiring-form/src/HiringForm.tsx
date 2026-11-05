@@ -5,7 +5,7 @@ import './HiringForm.css'
 
 // Put the user-supplied 1000104059.mp4 at public/hiring-video.mp4.
 // Both positions intentionally display the exact same clip.
-const HIRING_VIDEO = '/hiring-video.mp4'
+const HIRING_VIDEO = 'hiring-video.mp4'
 
 const positions = [
   { id: '10-cents', label: '10 cents for 1 hour', number: '01' },

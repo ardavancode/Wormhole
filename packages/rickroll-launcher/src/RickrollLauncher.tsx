@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import './RickrollLauncher.css'
 
 const VIDEO_URL =
-  '/rickroll.mp4'
+  'rickroll.mp4'
 
 export function RickrollLauncher() {
   const [open, setOpen] = useState(false)
