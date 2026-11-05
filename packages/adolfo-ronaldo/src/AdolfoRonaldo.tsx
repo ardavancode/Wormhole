@@ -9,6 +9,7 @@ const hostedReel =
 
 export function AdolfoRonaldo() {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const localUrl = useRef<string | null>(null)
   const [source, setSource] = useState(hostedReel)
   const [unavailable, setUnavailable] = useState(false)
@@ -21,15 +22,27 @@ export function AdolfoRonaldo() {
 
   const play = () => {
     const video = videoRef.current
-    if (!video) return
+    const audio = audioRef.current
+    if (!video || !audio) return
 
     video.currentTime = 0
-    video.muted = false
+    audio.currentTime = 0
+    video.playbackRate = 0.6 // Image transitions are 40% slower.
+    video.muted = true
+    audio.playbackRate = 1 // Keep the music at its original speed.
+    audio.muted = false
     setMuted(false)
-    const request = video.play()
-    if (request) {
-      void request.then(() => setPlaying(true)).catch(() => setPlaying(false))
-    }
+
+    // Both playback requests happen in the same user gesture.
+    const videoStart = video.play()
+    const audioStart = audio.play()
+    void Promise.all([videoStart, audioStart])
+      .then(() => setPlaying(true))
+      .catch(() => {
+        video.pause()
+        audio.pause()
+        setPlaying(false)
+      })
   }
 
   const onChooseFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +58,7 @@ export function AdolfoRonaldo() {
 
   const toggleMute = () => {
     const next = !muted
-    if (videoRef.current) videoRef.current.muted = next
+    if (audioRef.current) audioRef.current.muted = next
     setMuted(next)
   }
 
@@ -56,12 +69,14 @@ export function AdolfoRonaldo() {
         className="ar-video"
         src={source}
         playsInline
+        muted
         loop
         preload="auto"
         onError={() => { setUnavailable(true); setPlaying(false) }}
         onPause={() => setPlaying(false)}
         onPlay={() => setPlaying(true)}
       />
+      <audio ref={audioRef} src={source} loop preload="auto" />
       <div className="ar-grain" aria-hidden="true" />
       <div className="ar-shade" aria-hidden="true" />
       <p className="ar-corner ar-corner--top">WORMHOLE // LOST TIMELINE</p>
