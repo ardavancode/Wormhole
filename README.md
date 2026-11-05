@@ -20,3 +20,7 @@ Open the local URL shown by Vite (usually `http://localhost:5173`).
 - `npm run preview` – preview the production build
 
 Built with React + Vite. 🧪
+
+## Live site
+
+Deployed automatically from the `main` branch to [Cloudflare Pages](https://wormhole-lab.pages.dev).
