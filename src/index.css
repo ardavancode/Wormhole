@@ -8,3 +8,25 @@
 * { box-sizing: border-box; }
 body { min-width: 320px; margin: 0; }
 button, input { font: inherit; }
+
+/* Keep each experiment independent, but let the launcher break the layout. */
+.wormhole-glitch-launcher {
+  position: fixed;
+  top: clamp(82px, 28svh, 260px);
+  left: clamp(12px, 7vw, 110px);
+  z-index: 20;
+  transform: rotate(-9deg);
+  filter: drop-shadow(0 8px 15px rgba(0,0,0,.6));
+}
+.wormhole-glitch-launcher .wh-glitch-button {
+  min-height: 48px;
+  max-width: calc(100vw - 24px);
+}
+@media (max-width: 600px) {
+  .wormhole-glitch-launcher {
+    top: 36svh;
+    left: 12px;
+    transform: rotate(-12deg) scale(.84);
+    transform-origin: left center;
+  }
+}
