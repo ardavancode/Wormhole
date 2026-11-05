@@ -1,0 +1,104 @@
+.pd-teaser {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 620px);
+  padding: 22px 58px 25px 24px;
+  margin: 30px 0 36px;
+  background: #ff5f81;
+  border: 2px solid #ffccd4;
+  color: #160a13;
+  box-shadow: 10px 11px 0 #c6ff76;
+  transform: rotate(2deg);
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.pd-teaser:hover { transform: rotate(-1deg) translateY(-4px); box-shadow: 14px 16px 0 #c6ff76; }
+.pd-teaser:focus-visible { outline: 3px solid #fff; outline-offset: 6px; }
+.pd-teaser__tag { display: block; font: 700 10px/1.4 ui-monospace, monospace; letter-spacing: .12em; }
+.pd-teaser strong { display: block; font: 900 clamp(24px, 5vw, 43px)/1.25 Tahoma, system-ui, sans-serif; margin: 10px 0; letter-spacing: 0; }
+.pd-teaser > span:not(.pd-teaser__tag):not(.pd-teaser__arrow) { display: block; line-height: 1.65; }
+.pd-teaser__arrow { position: absolute; inset-inline-end: 20px; top: 28px; font-size: 36px; }
+.pd-experiment {
+  position: relative;
+  overflow: hidden;
+  min-height: 100svh;
+  padding: clamp(65px, 10vw, 135px) clamp(16px, 6vw, 88px) 70px;
+  color: #eee6ff;
+  background:
+    radial-gradient(circle at 18% 18%, #53152b 0, transparent 38%),
+    radial-gradient(circle at 81% 73%, #10353b 0, transparent 35%),
+    #070609;
+  font-family: Tahoma, system-ui, sans-serif;
+}
+.pd-experiment::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  opacity: .12;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, #fcecf7 4px);
+}
+.pd-intro, .pd-dashboard, .pd-simulation, .pd-safe-note { position: relative; z-index: 1; }
+.pd-intro { max-width: 870px; }
+.pd-kicker { font: 800 11px/1.5 ui-monospace, monospace; color: #c6ff76; letter-spacing: .1em; }
+.pd-intro h1 {
+  font-size: clamp(38px, 8vw, 105px);
+  font-weight: 1000;
+  line-height: 1.12; letter-spacing: -.05em;
+  margin: 10px 0; color: #fff5ef;
+  text-shadow: 6px 5px 0 #8c2752, -4px -3px 0 #1e626c;
+}
+.pd-experiment[dir="rtl"] .pd-intro h1 { letter-spacing: 0; }
+.pd-intro > p:last-child { max-width: 720px; font-size: clamp(15px, 2vw, 19px); line-height: 1.9; color: #d7c8dd; }
+.pd-dashboard { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: end; margin: 28px 0; }
+.pd-score { min-width: min(320px, 100%); max-width: 450px; flex: 1; }
+.pd-score > span { font: 700 11px ui-monospace, monospace; letter-spacing: .08em; color: #e3a9b8; }
+.pd-score > strong { display: block; font: 900 55px/1.2 ui-monospace, monospace; color: #c6ff76; margin: 6px 0; }
+.pd-meter { height: 12px; border: 1px solid #c6ff76; background: #1a1521; overflow: hidden; }
+.pd-meter > div { height: 100%; background: repeating-linear-gradient(100deg, #c6ff76 0 10px, #8ed84c 10px 17px); transition: width .3s ease; }
+.pd-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.pd-actions button, .pd-ending button { padding: 14px 20px; border: 2px solid transparent; font: 800 15px/1.4 Tahoma, system-ui, sans-serif; cursor: pointer; }
+.pd-wipe { background: #ff5579; color: #190b15; transform: rotate(2deg); box-shadow: 5px 5px 0 #451528; }
+.pd-restore { background: #c6ff76; color: #16230d; transform: rotate(-2deg); }
+.pd-actions button:disabled { opacity: .48; cursor: not-allowed; transform: none; }
+.pd-actions button:focus-visible, .pd-piece:focus-visible, .pd-ending button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.pd-simulation { background: #100d16; border: 2px solid #b798ce; box-shadow: 12px 15px 0 #392538; min-height: 380px; transform: rotate(-.6deg); }
+.pd-screenbar { display: flex; gap: 14px; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #67516f; color: #e4d7ef; font: 800 11px ui-monospace, monospace; }
+.pd-screenbar span:first-child { color: #ff6383; }
+.pd-pieces { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(6px, 1vw, 13px); padding: clamp(10px, 2.2vw, 28px); }
+.pd-piece {
+  position: relative; min-width: 0; min-height: clamp(95px, 13vw, 165px);
+  border: 2px solid #bfb2cc; background: #201b27; color: #fff; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 9px;
+  font: 800 clamp(10px, 1.5vw, 16px)/1.5 Tahoma, system-ui, sans-serif;
+  cursor: crosshair; transition: filter .13s, transform .15s, opacity .75s;
+}
+.pd-piece:nth-child(3n) { transform: rotate(3deg); }
+.pd-piece:nth-child(4n + 1) { transform: rotate(-2.5deg); }
+.pd-piece:hover:not(:disabled) { filter: brightness(1.35); transform: rotate(0) scale(1.035); z-index: 1; }
+.pd-piece--pink { border-color: #ef82b3; background: #422038; }
+.pd-piece--yellow { border-color: #ebd67f; background: #393021; }
+.pd-piece--blue { border-color: #77d0e8; background: #1b3540; }
+.pd-piece--green { border-color: #b4e781; background: #2b3820; }
+.pd-piece__icon { color: #fff0bc; font: 900 clamp(28px, 4vw, 54px)/1 ui-monospace, monospace; }
+.pd-piece__label { text-align: center; padding: 0 6px; }
+.pd-piece__number { position: absolute; inset-inline-start: 7px; top: 5px; font: 700 10px ui-monospace, monospace; opacity: .6; }
+.pd-piece--gone {
+  transform: translateY(95px) rotate(28deg) scale(.15) !important;
+  opacity: 0; pointer-events: none;
+}
+.pd-simulation--empty { border-color: #ff5579; }
+.pd-ending { position: absolute; inset: 0; z-index: 5; background: #060509ed; display: flex; flex-direction: column; gap: 15px; align-items: center; justify-content: center; text-align: center; padding: 18px; }
+.pd-ending > span { font: 900 clamp(30px, 7vw, 90px) ui-monospace, monospace; color: #ff5579; letter-spacing: -.06em; }
+.pd-ending strong { font-size: clamp(18px, 4vw, 34px); }
+.pd-ending button { background: #c6ff76; color: #10200b; margin-top: 8px; }
+.pd-safe-note { margin-top: 25px; max-width: 760px; color: #bbaaaf; line-height: 1.7; }
+@media (max-width: 800px) { .pd-pieces { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 500px) {
+  .pd-pieces { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pd-piece { min-height: 120px; }
+  .pd-experiment { padding-top: 65px; }
+  .pd-simulation { box-shadow: 5px 7px 0 #392538; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pd-teaser, .pd-meter > div, .pd-piece { transition: none !important; }
+  .pd-teaser:hover { transform: none; }
+}

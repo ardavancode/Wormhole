@@ -1,0 +1,12 @@
+.pd-page-navigation {
+  position: relative; z-index: 5; min-height: 66px;
+  padding: 17px clamp(18px, 6vw, 85px);
+  display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 15px;
+  background: #0f0b13; color: #c6ff76;
+  font: 800 12px/1.5 Tahoma, system-ui, sans-serif;
+}
+.pd-page-navigation a, .pd-page-footer a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
+.pd-page-navigation a:focus-visible, .pd-page-footer a:focus-visible { outline: 2px solid #c6ff76; outline-offset: 4px; }
+.pd-page-navigation > span { margin-inline-end: 155px; color: #a696b5; font: 700 10px/1.5 ui-monospace, monospace; }
+.pd-page-footer { text-align: center; background: #08070b; padding: 36px 14px; color: #c6ff76; font: 700 14px Tahoma, system-ui, sans-serif; }
+@media (max-width: 600px) { .pd-page-navigation > span { margin-inline-end: 0; } .pd-page-navigation { padding-inline-end: 145px; } }

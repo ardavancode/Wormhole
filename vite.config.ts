@@ -11,6 +11,8 @@ export default defineConfig(({ mode }) => ({
       input: {
         fa: 'index.html',
         en: 'en/index.html',
+        demolitionFa: 'experiments/page-demolition/index.html',
+        demolitionEn: 'en/experiments/page-demolition/index.html',
       },
     },
   },
