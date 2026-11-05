@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import type { ComponentType } from 'react'
 import { GlitchButton } from '@wormhole/glitch-button'
 import { RickrollLauncher } from '@wormhole/rickroll-launcher'
@@ -28,6 +28,19 @@ export default function App() {
   }, [])
 
   useEffect(() => { loadReel() }, [loadReel])
+
+  // The site's starting point is in the middle of an extensible vertical canvas.
+  // Preserve explicit anchors (and browser back/forward scroll restoration).
+  useLayoutEffect(() => {
+    if (window.location.hash) return
+    const navigation = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+    if (navigation?.type === 'back_forward') return
+    const frame = window.requestAnimationFrame(() => {
+      const startingSection = document.getElementById('adolfo-entry')
+      if (startingSection) window.scrollTo(0, startingSection.offsetTop)
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [])
   // Give every language its own real URL, so search engines can index both.
   const language: Language = /\/en\/?(?:index\.html)?$/.test(window.location.pathname) ? 'en' : 'fa'
 
@@ -51,11 +64,16 @@ export default function App() {
     <>
       <LanguageToggle language={language} onChange={switchLanguage} />
       <main>
-        {Reel ? <Reel language={language} /> : (
-          <section className="ar-stage" aria-label={language === 'fa' ? 'آدولفو رونالدو' : 'Adolfo Ronaldo'}>
+        <section className="wormhole-upcoming" id="wormhole-upcoming" aria-label={language === 'fa' ? 'فضای توسعهٔ آینده در بالای ورم‌هول' : 'Future development space above Wormhole'}>
+          <div className="wormhole-upcoming__mark" aria-hidden="true">↑ // ZONE -01</div>
+          <a href="#adolfo-entry">{language === 'fa' ? '↓ برگشت به آدولفو کریسلر' : '↓ BACK TO ADOLFO CHRYSLER'}</a>
+        </section>
+        <div id="adolfo-entry" className="wormhole-entry">
+          {Reel ? <Reel language={language} /> : (
+          <section className="ar-stage" aria-label={language === 'fa' ? 'آدولفو کریسلر' : 'Adolfo Chrysler'}>
             <p className="ar-corner ar-corner--top">WORMHOLE // SAFE MODE</p>
             <div className="ar-title-block">
-              <h1>{language === 'fa' ? 'آدولفو' : 'ADOLFO'}<br /><em>{language === 'fa' ? 'رونالدو' : 'RONALDO'}</em></h1>
+              <h1>{language === 'fa' ? 'آدولفو' : 'ADOLFO'}<br /><em>{language === 'fa' ? 'کریسلر' : 'CHRYSLER'}</em></h1>
             </div>
             <div className="ar-start">
               <p className="ar-start__help">{reelFailed
@@ -69,7 +87,8 @@ export default function App() {
               </a>
             </div>
           </section>
-        )}
+          )}
+        </div>
         <section className="wormhole-about" aria-labelledby="wormhole-about-title">
           <div>
             <p className="wormhole-about__eyebrow">{language === 'fa' ? 'WORMHOLE // آزمایشگاه اینترنتی' : 'WORMHOLE // INTERNET LAB'}</p>
@@ -77,8 +96,6 @@ export default function App() {
             <p>{language === 'fa'
               ? 'ورم‌هول یک زمین بازی تعاملی با React است؛ با افکت‌های گلیچ، ویدیوهای میم، غافلگیری ریک‌رول و یک فرم استخدام طنز. چیزهای عجیب اینجا جدی گرفته می‌شن.'
               : 'Wormhole is an experimental React playground packed with glitches, meme videos, Rickroll surprises, and a parody hiring form. Strange ideas are welcome.'}</p>
-            <DemolitionTeaser language={language} href={import.meta.env.BASE_URL + (language === "en" ? "en/" : "") + "experiments/page-demolition/"} />
-            <MouseVirusTeaser language={language} href={import.meta.env.BASE_URL + (language === "en" ? "en/" : "") + "experiments/mouse-virus/"} />
             <a href="#hiring">{language === 'fa' ? 'فرم استخدام غیرجدی ↓' : 'The extremely serious careers portal ↓'}</a>
           </div>
         </section>
@@ -88,6 +105,17 @@ export default function App() {
         <RickrollLauncher language={language} />
       </main>
       <HiringForm language={language} />
+      <section className="wormhole-archive" aria-labelledby="wormhole-archive-title">
+        <div className="wormhole-archive__intro">
+          <span>WORMHOLE // BOTTOM OF THE RABBIT HOLE</span>
+          <h2 id="wormhole-archive-title">{language === 'fa' ? 'آزمایش‌های تبعیدی' : 'THE EXILED EXPERIMENTS'}</h2>
+          <p>{language === 'fa' ? 'دو خرابکاری کوچیک که فرستادیم‌شون تهِ سایت.' : 'Two little disasters banished to the bottom of the page.'}</p>
+        </div>
+        <div className="wormhole-archive__links">
+          <DemolitionTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/page-demolition/'} />
+          <MouseVirusTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/mouse-virus/'} />
+        </div>
+      </section>
     </>
   )
 }

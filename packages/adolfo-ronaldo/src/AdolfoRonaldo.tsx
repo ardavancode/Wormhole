@@ -74,7 +74,7 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
   }
 
   return (
-    <section className="ar-stage" dir={fa ? "rtl" : "ltr"} aria-label={fa ? "ویدیوی طنز آدولفو رونالدو" : "Adolfo Ronaldo meme reel"}>
+    <section className="ar-stage" dir={fa ? "rtl" : "ltr"} aria-label={fa ? "ویدیوی طنز آدولفو کریسلر" : "Adolfo Chrysler meme reel"}>
       <video
         ref={videoRef}
         className="ar-video"
@@ -93,7 +93,7 @@ export function AdolfoRonaldo({ language = 'en' }: { language?: 'fa' | 'en' }) {
       <p className="ar-corner ar-corner--top">{fa ? "ورم‌هول // خط زمانی گمشده" : "WORMHOLE // LOST TIMELINE"}</p>
       <div className="ar-title-block">
         <span className="ar-before">{fa ? "یک نمایش کاملاً جدی از" : "a very serious presentation of"}</span>
-        <h1>{fa ? "آدولفو" : "ADOLFO"}<br /><em>{fa ? "رونالدو" : "RONALDO"}</em></h1>
+        <h1>{fa ? "آدولفو" : "ADOLFO"}<br /><em>{fa ? "کریسلر" : "CHRYSLER"}</em></h1>
         <span className="ar-after">{fa ? "زمان فقط یک توهمه ↗" : "TIME IS AN ILLUSION ↗"}</span>
       </div>
 
