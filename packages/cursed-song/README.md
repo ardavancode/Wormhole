@@ -1,19 +1,18 @@
 # @wormhole/cursed-song
 
-A musical, fictional escape-room experiment. The visitor optionally picks an audio
-file from their own device, starts it intentionally, and solves three bilingual
-text riddles to unlock the narrative exit.
+The game supports a default audio track named `public/cursed-song.mp3`.
+**The MP3 binary is not yet in the GitHub repository.** Upload the user's supplied
+song to that exact path to activate the default soundtrack across GitHub Pages,
+Cloudflare Pages, and Cloudflare Workers on the next successful deployment.
 
-## Using the user's final audio later
+Until then the experiment continues to work in silent mode or by selecting a
+local file in the UI. The client checks the hosted asset with an HTTP HEAD request
+and only treats responses with an audio content type as a working default.
 
-When the supplied audio is available, add a copy to `public/cursed-song.mp3` and
-pass `audioSrc={import.meta.env.BASE_URL + 'cursed-song.mp3'}` to `CursedSong`
-from `src/cursed-song-page.tsx`. Do **not** attempt to load the nonexistent
-asset before the file is supplied.
+The user-provided track is 'Master Baiter (Hyperbaiter Disstrack) - Havexy.mp3';
+rename it to `cursed-song.mp3` for upload. Public publication requires the
+appropriate rights to distribute the recording.
 
-Local file selections are never uploaded. Playback always has a real,
-stationary pause control and an emergency exit; all sound stops when leaving.
-No cookies, network uploads, hidden traps, or forced autoplay.
-
-The fake mute button is only a prank. Riddle answers are accepted in Persian
-or English regardless of selected language.
+Local file choices are never uploaded. Playback only starts after user action,
+and the real pause and emergency exit controls work at all times.
+No forced autoplay, tracking or background audio.

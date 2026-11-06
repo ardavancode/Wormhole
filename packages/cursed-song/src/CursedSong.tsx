@@ -57,6 +57,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
   const audioRef = useRef<HTMLAudioElement>(null)
   const localUrlRef = useRef<string | null>(null)
   const [localAudio, setLocalAudio] = useState<string | null>(null)
+  const [hostedAvailable, setHostedAvailable] = useState(false)
   const [fileName, setFileName] = useState('')
   const [started, setStarted] = useState(false)
   const [solved, setSolved] = useState(false)
@@ -66,7 +67,28 @@ export function CursedSong({ language, homeHref, audioSrc }: {
   const [notice, setNotice] = useState('')
   const [playing, setPlaying] = useState(false)
   const [fakeJump, setFakeJump] = useState(0)
-  const source = localAudio ?? audioSrc
+  // A missing static asset must not replace the game with a 404/HTML audio error.
+  // Once public/cursed-song.mp3 exists on the host it becomes the default track.
+  const source = localAudio ?? (hostedAvailable ? audioSrc : undefined)
+
+  useEffect(() => {
+    if (!audioSrc) {
+      setHostedAvailable(false)
+      return
+    }
+    const controller = new AbortController()
+    void fetch(audioSrc, { method: 'HEAD', signal: controller.signal })
+      .then((response) => {
+        const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
+        if (!controller.signal.aborted) {
+          setHostedAvailable(response.ok && contentType.startsWith('audio/'))
+        }
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setHostedAvailable(false)
+      })
+    return () => controller.abort()
+  }, [audioSrc])
 
   useEffect(() => () => {
     audioRef.current?.pause()
@@ -163,6 +185,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
         onPause={() => setPlaying(false)}
         onError={() => {
           setPlaying(false)
+          if (!localAudio) setHostedAvailable(false)
           setNotice(fa ? 'فایل صوتی پخش نشد؛ یک فایل دیگه امتحان کن.' : 'Audio failed to load. Try another file.')
         }}
       />
@@ -185,7 +208,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
             <input type="file" accept="audio/*" onChange={selectAudio} />
           </label>
           <span className="cs-track" title={fileName || undefined}>
-            {fileName || (audioSrc ? (fa ? 'آهنگ سایت آماده‌ست' : 'Site audio is ready') : (fa ? 'منتظر آهنگ اصلی…' : 'AWAITING THE OFFICIAL TRACK…'))}
+            {fileName || (hostedAvailable ? 'Master Baiter — Havexy' : (fa ? 'فایل صوتی رو از دستگاهت انتخاب کن' : 'CHOOSE AN AUDIO FILE TO PLAY'))}
           </span>
           <button type="button" className="cs-audio" onClick={playing ? stop : play} disabled={!source}>
             {playing ? (fa ? '❚❚ توقف واقعی صدا' : '❚❚ PAUSE AUDIO') : (fa ? '▶ پخش صدا' : '▶ PLAY AUDIO')}

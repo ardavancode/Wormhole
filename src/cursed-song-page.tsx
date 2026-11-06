@@ -29,7 +29,7 @@ function CursedSongPage() {
         <span>THE CURSED JUKEBOX / 004</span>
       </header>
       <main>
-        <CursedSong language={language} homeHref={home} />
+        <CursedSong language={language} homeHref={home} audioSrc={import.meta.env.BASE_URL + 'cursed-song.mp3'} />
       </main>
       <footer className="cs-pagefooter">
         <a href={home}>{language === 'fa' ? '↵ بازگشت به آزمایشگاه' : '↵ BACK TO THE LAB'}</a>
