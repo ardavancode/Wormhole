@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CSSProperties, ChangeEvent, FormEvent } from 'react'
+import type { CSSProperties, FormEvent } from 'react'
 import './CursedSong.css'
 
 type Language = 'fa' | 'en'
@@ -55,10 +55,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
 }) {
   const fa = language === 'fa'
   const audioRef = useRef<HTMLAudioElement>(null)
-  const localUrlRef = useRef<string | null>(null)
-  const [localAudio, setLocalAudio] = useState<string | null>(null)
-  const [fileName, setFileName] = useState('')
-  const [started, setStarted] = useState(false)
+  const audioStoppedRef = useRef(false)
   const [solved, setSolved] = useState(false)
   const [stage, setStage] = useState(0)
   const [answer, setAnswer] = useState('')
@@ -67,60 +64,44 @@ export function CursedSong({ language, homeHref, audioSrc }: {
   const [playing, setPlaying] = useState(false)
   const [fakeJump, setFakeJump] = useState(0)
   const [exitRequests, setExitRequests] = useState(0)
-  // The supplied public MP3 is included in the deployed site.
-  // Start playing synchronously inside the user's START click.
-  const source = localAudio ?? audioSrc
-
-  useEffect(() => () => {
-    audioRef.current?.pause()
-    if (localUrlRef.current) URL.revokeObjectURL(localUrlRef.current)
-  }, [])
-
-  const selectAudio = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.currentTarget.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('audio/')) {
-      setNotice(fa ? 'یک فایل صوتی انتخاب کن.' : 'Please select an audio file.')
-      return
-    }
-    audioRef.current?.pause()
-    if (localUrlRef.current) URL.revokeObjectURL(localUrlRef.current)
-    const next = URL.createObjectURL(file)
-    localUrlRef.current = next
-    setLocalAudio(next)
-    setFileName(file.name)
-    setPlaying(false)
-    setNotice(fa ? 'موسیقی جایگزین پذیرفته شد.' : 'Replacement soundtrack accepted.')
-  }
-
+  // Attempt sound immediately. If the browser blocks autoplay, its first
+  // pointer/key interaction will unlock audio automatically, without a play button.
   const play = () => {
     const audio = audioRef.current
-    if (!audio || !source) return
+    if (!audio || !audioSrc || audioStoppedRef.current) return
     audio.volume = 0.7
-    void audio.play().catch(() => {
-      setPlaying(false)
-      setNotice(fa ? 'مرورگر پخش صدا رو نپذیرفت؛ با دکمهٔ پخش دوباره امتحان کن.' : 'Playback was blocked. Try the play button again.')
+    void audio.play().then(() => {
+      setNotice('')
+    }).catch(() => {
+      if (!audioStoppedRef.current) {
+        setNotice(fa
+          ? 'مرورگر پخش خودکار صدا رو مسدود کرده؛ با اولین لمس یا کلید، آهنگ شروع می‌شه.'
+          : 'Browser blocked autoplay. The first tap or key press starts the song.')
+      }
     })
   }
 
+  useEffect(() => {
+    const unlockAudio = () => play()
+    document.addEventListener('pointerdown', unlockAudio, { passive: true })
+    document.addEventListener('keydown', unlockAudio)
+    play()
+    return () => {
+      document.removeEventListener('pointerdown', unlockAudio)
+      document.removeEventListener('keydown', unlockAudio)
+      audioRef.current?.pause()
+    }
+  }, [audioSrc, fa])
+
   const stop = () => {
+    audioStoppedRef.current = true
     audioRef.current?.pause()
     setPlaying(false)
-  }
-
-  const start = () => {
-    setStarted(true)
-    setSolved(false)
-    setStage(0)
-    setAnswer('')
-    setAttempts(0)
-    setNotice(fa ? 'سیستم خروج موقتاً در دست تعمیره. لطفاً خونسرد باش.' : 'The exit system is temporarily under maintenance. Remain calm.')
-    if (source) play()
   }
 
   const submitAnswer = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!started || solved || !answer.trim()) return
+    if (solved || !answer.trim()) return
     const expected = riddles[stage].answers as readonly string[]
     if (expected.some((candidate) => cleanAnswer(candidate) === cleanAnswer(answer))) {
       setAnswer('')
@@ -141,7 +122,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
 
   const restart = () => {
     stop()
-    setStarted(false)
+    audioStoppedRef.current = false
     setSolved(false)
     setStage(0)
     setAnswer('')
@@ -149,6 +130,8 @@ export function CursedSong({ language, homeHref, audioSrc }: {
     setNotice('')
     setFakeJump(0)
     setExitRequests(0)
+    if (audioRef.current) audioRef.current.currentTime = 0
+    play()
   }
 
   const teaseMute = () => {
@@ -171,14 +154,14 @@ export function CursedSong({ language, homeHref, audioSrc }: {
     <section className="cs-lab" dir={fa ? 'rtl' : 'ltr'} aria-labelledby="cs-title">
       <audio
         ref={audioRef}
-        src={source}
-        preload="none"
+        src={audioSrc}
+        preload="auto"
         loop
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onError={() => {
           setPlaying(false)
-          setNotice(fa ? 'فایل صوتی پخش نشد؛ یک فایل دیگه امتحان کن.' : 'Audio failed to load. Try another file.')
+          setNotice(fa ? 'فایل آهنگ روی سایت بارگذاری نشد.' : 'The hosted soundtrack could not be loaded.')
         }}
       />
 
@@ -186,35 +169,23 @@ export function CursedSong({ language, homeHref, audioSrc }: {
         <span className="cs-topline">WORMHOLE / EXPERIMENT 004 / SOUNDTRAP.EXE</span>
         <h1 id="cs-title">{fa ? 'آهنگ نفرین‌شده' : 'THE CURSED SONG'}</h1>
         <p>{fa
-          ? 'فقط یه موزیک‌پلیر معمولیه. یه دکمه داره. بزن ببین چی می‌شه…'
-          : 'Just an ordinary music player. One button. What could possibly go wrong?'}</p>
+          ? 'آهنگ خودش شروع می‌شه. برای شکستن نفرین، سه معما رو حل کن.'
+          : 'The song starts by itself. Solve three riddles to break the curse.'}</p>
       </div>
 
-      {/* Safety controls always work; they are low-key rather than the punchline. */}
+      {/* Keep a real audio stop available, but no play, file picker or direct back button. */}
       <div className="cs-quiet-controls">
-        <button type="button" className="cs-quiet-button" onClick={playing ? stop : play}
-          disabled={!source} aria-label={playing ? (fa ? 'قطع واقعی صدا' : 'Actually pause audio') : (fa ? 'پخش صدا' : 'Play audio')}>
-          {playing ? '❚❚' : '▶'} <span>{fa ? 'صدا' : 'AUDIO'}</span>
+        <button type="button" className="cs-quiet-button" onClick={stop}
+          disabled={!playing} aria-label={fa ? 'توقف واقعی صدا' : 'Really stop audio'}>
+          ❚❚ <span>{fa ? 'توقف صدا' : 'STOP AUDIO'}</span>
         </button>
-        <a className="cs-quiet-exit" href={homeHref} onClick={stop}
-          aria-label={fa ? 'خروج واقعی از بازی و توقف آهنگ' : 'Really exit the game and stop audio'}>
-          <span aria-hidden="true">↩</span> {fa ? 'بازگشت به سایت' : 'Back to site'}
-        </a>
-        <details className="cs-music-settings">
-          <summary aria-label={fa ? 'تنظیمات آهنگ' : 'Audio settings'}>⚙</summary>
-          <label className="cs-upload">
-            <span>{fa ? 'انتخاب موسیقی دیگر' : 'CHOOSE OTHER AUDIO'}</span>
-            <input type="file" accept="audio/*" onChange={selectAudio} />
-          </label>
-          <span className="cs-track" title={fileName || undefined}>{fileName || 'Master Baiter — Havexy'}</span>
-        </details>
       </div>
 
-      <div className={'cs-room' + (started ? ' cs-room--started' : '') + (solved ? ' cs-room--solved' : '')}>
+      <div className={'cs-room cs-room--started' + (solved ? ' cs-room--solved' : '')}>
         <div className="cs-windowbar" dir="ltr">
           <span>◉ ◉ ◉</span>
           <span>ESCAPE_PROTOCOL / LOCKED</span>
-          <span>{solved ? 'ACCESS GRANTED' : started ? 'ACCESS DENIED' : 'STANDBY'}</span>
+          <span>{solved ? 'ACCESS GRANTED' : 'ACCESS DENIED'}</span>
         </div>
         <div className="cs-decor cs-decor--a" aria-hidden="true">♫</div>
         <div className="cs-decor cs-decor--b" aria-hidden="true">◉</div>
@@ -224,17 +195,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
           ))}
         </div>
 
-        {!started ? (
-          <div className="cs-door cs-door--intro">
-            <span className="cs-door__tag">JUKEBOX // READY</span>
-            <h2>{fa ? 'فقط یه آهنگه :)' : 'IT’S JUST A SONG :)'}</h2>
-            <p>{fa ? 'شما با ورود به این صفحه رسماً هیچ‌چیزی رو قبول نکردی. احتمالاً.' : 'You definitely did not agree to anything by coming here. Probably.'}</p>
-            <button className="cs-primary" type="button" onClick={start} disabled={!source}>
-              {fa ? '▶ ورود' : '▶ ENTER'}
-            </button>
-            {!source && <span className="cs-no-track">{fa ? 'فایل آهنگ موجود نیست؛ از تنظیمات پایین آهنگ انتخاب کن.' : 'Soundtrack missing. Choose an audio file from settings.'}</span>}
-          </div>
-        ) : solved ? (
+        {solved ? (
           <div className="cs-door cs-door--victory" role="status">
             <span className="cs-door__tag">LOCKS: 0 / 3 · ACCESS GRANTED</span>
             <h2>{fa ? 'تبریک! نفرین شکسته شد.' : 'CURSE BROKEN. YOU ESCAPED.'}</h2>
@@ -277,12 +238,12 @@ export function CursedSong({ language, homeHref, audioSrc }: {
             </div>
           </div>
         )}
-        {started && <div className="cs-progress" aria-label={fa ? 'پیشرفت معما' : 'Puzzle progress'}>
+        {<div className="cs-progress" aria-label={fa ? 'پیشرفت معما' : 'Puzzle progress'}>
           {riddles.map((_, i) => <span key={i} className={i < stage || solved ? 'cs-progress--open' : ''}>{i < stage || solved ? '✓' : '✕'}</span>)}
         </div>}
       </div>
 
-      <p className="cs-message" aria-live="polite">{notice || (fa ? 'برای شروع، روی دکمهٔ بزرگ بزن.' : 'Press the big button to begin.')}</p>
+      <p className="cs-message" aria-live="polite">{notice || (fa ? 'سه قفل تا خروج باقی مونده.' : 'Three locks remain before escape.')}</p>
     </section>
   )
 }

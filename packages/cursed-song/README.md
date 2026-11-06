@@ -1,10 +1,14 @@
 # @wormhole/cursed-song
 
-The interactive cursed-song prank intentionally keeps the punchline hidden:
-- ENTER starts the song during the same user gesture and reveals the three-lock riddle sequence.
-- Prominent EXIT and STOP SONG controls inside the puzzle are playful decoys that make silly excuses rather than identifying themselves as fake.
-- The actual audio pause and real site exit are quieter, consistently accessible controls above the game; the browser's own navigation works too.
-- The public MP3 is expected at `public/cursed-song.mp3`, with the `audioSrc` prop in `src/cursed-song-page.tsx`.
-- Choosing an alternate local audio file is supported behind the settings button. Files are never uploaded.
-- No autoplay before a user click, no forced playback, no blocked browser navigation or hidden traps. Audio pauses on leaving and after solving the riddles.
-- Persian and English language pages remain distinct and indexable.
+The supplied track is served as `public/cursed-song.mp3`. There is no
+music picker, no play or entry button and no direct back-to-site button.
+
+The three riddles appear as soon as the page loads. The game attempts to play
+the looped MP3 immediately. Modern browsers may block audible autoplay until
+a user gesture; the first pointer or keyboard interaction retries playback
+automatically, with no dedicated opt-in control.
+
+A real, working STOP AUDIO control remains available to avoid trapping visitors
+in unwanted audio, and the final solved-riddle exit still returns to the
+homepage. The browser's own back and close controls cannot be hijacked.
+A stopped track stays stopped until the visitor restarts the game.
