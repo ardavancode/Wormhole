@@ -6,6 +6,7 @@ import { HiringForm } from '@wormhole/hiring-form'
 import { DemolitionTeaser } from '@wormhole/page-demolition'
 import { MouseVirusTeaser } from '@wormhole/mouse-virus'
 import { CursedSongTeaser } from '@wormhole/cursed-song'
+import { DarkSunMotion } from '@wormhole/dark-sun-motion'
 import { LanguageToggle } from '@wormhole/language-toggle'
 import type { Language } from '@wormhole/language-toggle'
 import '@wormhole/adolfo-ronaldo/style.css'
@@ -16,6 +17,7 @@ import '@wormhole/language-toggle/style.css'
 import '@wormhole/page-demolition/style.css'
 import '@wormhole/mouse-virus/style.css'
 import '@wormhole/cursed-song/style.css'
+import '@wormhole/dark-sun-motion/style.css'
 
 export default function App() {
   // Keep the rest of the site usable even if the reel chunk cannot load.
@@ -66,10 +68,14 @@ export default function App() {
     <>
       <LanguageToggle language={language} onChange={switchLanguage} />
       <main>
-        <section className="wormhole-upcoming" id="wormhole-upcoming" aria-label={language === 'fa' ? 'فضای توسعهٔ آینده در بالای ورم‌هول' : 'Future development space above Wormhole'}>
-          <div className="wormhole-upcoming__mark" aria-hidden="true">↑ // ZONE -01</div>
-          <a href="#adolfo-entry">{language === 'fa' ? '↓ برگشت به آدولفو کریسلر' : '↓ BACK TO ADOLFO CHRYSLER'}</a>
-        </section>
+        <div id="wormhole-upcoming">
+          <DarkSunMotion
+            language={language}
+            imageSrc={import.meta.env.BASE_URL + 'dark-sun-monarch.webp'}
+            fullHref={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/dark-sun/'}
+            returnHref="#adolfo-entry"
+          />
+        </div>
         <div id="adolfo-entry" className="wormhole-entry">
           {Reel ? <Reel language={language} /> : (
           <section className="ar-stage" aria-label={language === 'fa' ? 'آدولفو کریسلر' : 'Adolfo Chrysler'}>

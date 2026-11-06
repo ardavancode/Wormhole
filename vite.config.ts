@@ -17,6 +17,8 @@ export default defineConfig(({ mode }) => ({
         mouseVirusEn: 'en/experiments/mouse-virus/index.html',
         cursedSongFa: 'experiments/cursed-song/index.html',
         cursedSongEn: 'en/experiments/cursed-song/index.html',
+        darkSunFa: 'experiments/dark-sun/index.html',
+        darkSunEn: 'en/experiments/dark-sun/index.html',
       },
     },
   },

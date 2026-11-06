@@ -41,4 +41,14 @@
     <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/cursed-song/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/cursed-song/" />
   </url>
+  <url>
+    <loc>https://ardavancode.github.io/Wormhole/experiments/dark-sun/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/dark-sun/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/dark-sun/" />
+  </url>
+  <url>
+    <loc>https://ardavancode.github.io/Wormhole/en/experiments/dark-sun/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/dark-sun/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/dark-sun/" />
+  </url>
 </urlset>

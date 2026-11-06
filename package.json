@@ -25,7 +25,8 @@
     "@wormhole/language-toggle": "0.1.0",
     "@wormhole/page-demolition": "0.1.0",
     "@wormhole/mouse-virus": "0.1.0",
-    "@wormhole/cursed-song": "0.1.0"
+    "@wormhole/cursed-song": "0.1.0",
+    "@wormhole/dark-sun-motion": "0.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.12",
