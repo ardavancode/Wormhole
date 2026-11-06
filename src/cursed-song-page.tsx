@@ -25,14 +25,14 @@ function CursedSongPage() {
         if (next !== language) window.location.assign(langPath(next))
       }} />
       <header className="cs-pagebar">
-        <a href={home}>{language === 'fa' ? '↵ بازگشت به ورم‌هول' : '↵ BACK TO WORMHOLE'}</a>
+        <span className="cs-pagebar__label">{language === 'fa' ? 'دستگاه موسیقی شمارهٔ ۰۰۴' : 'JUKEBOX UNIT 004'}</span>
         <span>THE CURSED JUKEBOX / 004</span>
       </header>
       <main>
         <CursedSong language={language} homeHref={home} audioSrc={import.meta.env.BASE_URL + 'cursed-song.mp3'} />
       </main>
       <footer className="cs-pagefooter">
-        <a href={home}>{language === 'fa' ? '↵ بازگشت به آزمایشگاه' : '↵ BACK TO THE LAB'}</a>
+        <span>WORMHOLE // EXIT REQUESTS ARE CURRENTLY UNDER REVIEW</span>
       </footer>
     </>
   )

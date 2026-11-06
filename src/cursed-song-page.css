@@ -10,3 +10,6 @@
 .cs-pagebar a:focus-visible, .cs-pagefooter a:focus-visible { outline: 3px solid white; outline-offset: 4px; }
 .cs-pagefooter { padding: 35px 18px; background: #100a18; text-align: center; color: #ffdf89; font: 800 13px Tahoma, system-ui, sans-serif; }
 @media (max-width: 600px) { .cs-pagebar { padding-inline-end: 150px; } .cs-pagebar span { margin-inline-end: 0; } }
+
+.cs-pagebar__label { color: #ceb7d4; font: 800 11px/1.6 Tahoma, system-ui, sans-serif; }
+.cs-pagefooter span { color: #87738f; font: 700 10px ui-monospace, monospace; }

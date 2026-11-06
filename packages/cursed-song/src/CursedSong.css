@@ -89,3 +89,54 @@
   .cs-teaser, .cs-fake-mute { transition: none; }
   .cs-soundwave i.cs-soundwave--active { animation: none; height: 18px; }
 }
+
+/* The prank looks like a music trap; genuine controls remain discreet and functional. */
+.cs-quiet-controls {
+  position: relative; z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px 18px; justify-content: flex-end;
+  margin: -16px 0 27px; min-height: 38px;
+  color: #d1c4d6;
+}
+.cs-quiet-button, .cs-quiet-exit {
+  color: #cfc4d5; border: 1px solid #62536a; background: #160f1e;
+  font: 700 11px/1.5 Tahoma, system-ui, sans-serif;
+  text-decoration: none; padding: 8px 13px; cursor: pointer;
+  min-height: 37px;
+}
+.cs-quiet-button:hover, .cs-quiet-exit:hover { color: #fff; border-color: #c9a6d7; }
+.cs-quiet-button:disabled { opacity: .55; cursor: not-allowed; }
+.cs-quiet-button:focus-visible, .cs-quiet-exit:focus-visible,
+.cs-music-settings summary:focus-visible, .cs-exit-request:focus-visible {
+  outline: 3px solid #fff; outline-offset: 4px;
+}
+.cs-music-settings { position: relative; }
+.cs-music-settings summary {
+  cursor: pointer; min-width: 37px; min-height: 37px;
+  display: grid; place-items: center; border: 1px solid #62536a;
+  background: #160f1e; color: #d1c4d6; list-style: none;
+}
+.cs-music-settings summary::-webkit-details-marker { display: none; }
+.cs-music-settings[open] {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 12px;
+}
+.cs-music-settings[open] summary { margin-inline-end: 8px; }
+.cs-decoy-actions {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 15px 30px; padding: 10px 0 0;
+}
+.cs-exit-request {
+  position: relative;
+  padding: 12px 25px;
+  background: #aaecc8; color: #17271d;
+  border: 2px solid #fff7d3;
+  font: 900 14px/1.5 Tahoma, system-ui, sans-serif;
+  box-shadow: 5px 5px #6a377b; cursor: pointer;
+}
+.cs-exit-request:hover { transform: translateY(-2px); }
+.cs-fake-mute { margin-top: 0; }
+@media (max-width: 600px) {
+  .cs-quiet-controls { justify-content: flex-start; }
+  .cs-decoy-actions { gap: 15px; }
+}
