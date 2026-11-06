@@ -1,1 +1,1 @@
-export { CursedSong, CursedSongTeaser } from './CursedSong'
+export { CursedSong, CursedSongTeaser, activateCursedSong } from './CursedSong'

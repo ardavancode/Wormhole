@@ -5,7 +5,7 @@ import { RickrollLauncher } from '@wormhole/rickroll-launcher'
 import { HiringForm } from '@wormhole/hiring-form'
 import { DemolitionTeaser } from '@wormhole/page-demolition'
 import { MouseVirusTeaser } from '@wormhole/mouse-virus'
-import { CursedSongTeaser } from '@wormhole/cursed-song'
+import { CursedSong, CursedSongTeaser, activateCursedSong } from '@wormhole/cursed-song'
 import { DarkSunMotion } from '@wormhole/dark-sun-motion'
 import { LanguageToggle } from '@wormhole/language-toggle'
 import type { Language } from '@wormhole/language-toggle'
@@ -20,6 +20,25 @@ import '@wormhole/cursed-song/style.css'
 import '@wormhole/dark-sun-motion/style.css'
 
 export default function App() {
+  const [inCursedSong, setInCursedSong] = useState(false)
+
+  useEffect(() => {
+    const syncRoute = () => setInCursedSong(window.location.pathname.endsWith('/experiments/cursed-song/'))
+    window.addEventListener('popstate', syncRoute)
+    return () => window.removeEventListener('popstate', syncRoute)
+  }, [])
+
+  const enterCursedSong = (event: import('react').MouseEvent<HTMLAnchorElement>) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    event.preventDefault()
+    // Start audio before changing the UI or navigating: this uses the real click.
+    activateCursedSong(import.meta.env.BASE_URL + 'cursed-song.mp3')
+    const path = import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/cursed-song/'
+    window.history.pushState({ wormhole: 'cursed-song' }, '', path)
+    setInCursedSong(true)
+    window.scrollTo(0, 0)
+  }
+
   // Keep the rest of the site usable even if the reel chunk cannot load.
   const [Reel, setReel] = useState<ComponentType<{ language?: Language }> | null>(null)
   const [reelFailed, setReelFailed] = useState(false)
@@ -46,7 +65,7 @@ export default function App() {
     return () => window.cancelAnimationFrame(frame)
   }, [])
   // Give every language its own real URL, so search engines can index both.
-  const language: Language = /\/en\/?(?:index\.html)?$/.test(window.location.pathname) ? 'en' : 'fa'
+  const language: Language = /\/en(?:\/|$)/.test(window.location.pathname) ? 'en' : 'fa'
 
   useEffect(() => {
     document.documentElement.lang = language
@@ -61,12 +80,18 @@ export default function App() {
   const switchLanguage = (next: Language) => {
     if (next === language) return
     // BASE_URL is / on Cloudflare and /Wormhole/ on GitHub Pages.
-    window.location.assign(import.meta.env.BASE_URL + (next === 'en' ? 'en/' : ''))
+    window.location.assign(import.meta.env.BASE_URL + (next === 'en' ? 'en/' : '') + (inCursedSong ? 'experiments/cursed-song/' : ''))
   }
 
   return (
     <>
       <LanguageToggle language={language} onChange={switchLanguage} />
+      {inCursedSong ? (
+        <main>
+          <CursedSong language={language} homeHref={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '')} audioSrc={import.meta.env.BASE_URL + 'cursed-song.mp3'} />
+        </main>
+      ) : (
+        <>
       <main>
         <div id="wormhole-upcoming">
           <DarkSunMotion
@@ -122,9 +147,11 @@ export default function App() {
         <div className="wormhole-archive__links">
           <DemolitionTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/page-demolition/'} />
           <MouseVirusTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/mouse-virus/'} />
-          <CursedSongTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/cursed-song/'} />
+          <CursedSongTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/cursed-song/'} onEnter={enterCursedSong} />
         </div>
       </section>
+        </>
+      )}
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CSSProperties, FormEvent } from 'react'
+import type { CSSProperties, FormEvent, MouseEvent as ReactMouseEvent } from 'react'
 import './CursedSong.css'
 
 type Language = 'fa' | 'en'
@@ -36,10 +36,39 @@ const cleanAnswer = (value: string) => value
   .replace(/ك/g, 'ک')
   .replace(/[\s\p{P}\p{S}]+/gu, '')
 
-export function CursedSongTeaser({ language, href }: { language: Language; href: string }) {
+// Pre-activate the music inside the actual click on the homepage teaser.
+ // A scripted .click() cannot bypass browser autoplay restrictions.
+let activeTrack: HTMLAudioElement | null = null
+let activeSource = ''
+
+function trackFor(source: string) {
+  if (activeTrack && activeSource === source) return activeTrack
+  activeTrack?.pause()
+  activeTrack = new Audio(source)
+  activeSource = source
+  activeTrack.preload = 'auto'
+  activeTrack.loop = true
+  activeTrack.volume = 0.7
+  return activeTrack
+}
+
+export function activateCursedSong(source: string) {
+  const track = trackFor(source)
+  track.currentTime = 0
+  // This call is deliberately synchronous in the trusted click event.
+  void track.play().catch(() => {
+    // A direct visit can still be blocked; the riddle listens for the next interaction.
+  })
+}
+
+export function CursedSongTeaser({ language, href, onEnter }: {
+  language: Language
+  href: string
+  onEnter?: (event: ReactMouseEvent<HTMLAnchorElement>) => void
+}) {
   const fa = language === 'fa'
   return (
-    <a className="cs-teaser" href={href}>
+    <a className="cs-teaser" href={href} onClick={onEnter}>
       <span className="cs-teaser__serial">EXPERIMENT 004 / ESCAPE THE LOOP</span>
       <strong>{fa ? '♫ آهنگ نفرین‌شده' : '♫ THE CURSED SONG'}</strong>
       <span>{fa ? 'برای خروج سه معمای متنی حل کن... اگر دکمه‌ها بذارن!' : 'Solve three riddles to unlock the exit. The buttons may disagree.'}</span>
@@ -54,7 +83,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
   audioSrc?: string
 }) {
   const fa = language === 'fa'
-  const audioRef = useRef<HTMLAudioElement>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioStoppedRef = useRef(false)
   const [solved, setSolved] = useState(false)
   const [stage, setStage] = useState(0)
@@ -82,14 +111,28 @@ export function CursedSong({ language, homeHref, audioSrc }: {
   }
 
   useEffect(() => {
-    const unlockAudio = () => play()
+    if (!audioSrc) return
+    const audio = trackFor(audioSrc)
+    audioRef.current = audio
+    const playingNow = () => { setPlaying(true); setNotice('') }
+    const pausedNow = () => setPlaying(false)
+    const failedLoad = () => setNotice(fa ? 'فایل آهنگ روی سایت بارگذاری نشد.' : 'The hosted soundtrack could not be loaded.')
+    const unlockAudio = () => { if (!audioStoppedRef.current && audio.paused) play() }
+    audio.addEventListener('play', playingNow)
+    audio.addEventListener('pause', pausedNow)
+    audio.addEventListener('error', failedLoad)
     document.addEventListener('pointerdown', unlockAudio, { passive: true })
     document.addEventListener('keydown', unlockAudio)
-    play()
+    setPlaying(!audio.paused)
+    if (audio.paused) play()
     return () => {
       document.removeEventListener('pointerdown', unlockAudio)
       document.removeEventListener('keydown', unlockAudio)
-      audioRef.current?.pause()
+      audio.removeEventListener('play', playingNow)
+      audio.removeEventListener('pause', pausedNow)
+      audio.removeEventListener('error', failedLoad)
+      audio.pause()
+      audioRef.current = null
     }
   }, [audioSrc, fa])
 
@@ -152,19 +195,6 @@ export function CursedSong({ language, homeHref, audioSrc }: {
 
   return (
     <section className="cs-lab" dir={fa ? 'rtl' : 'ltr'} aria-labelledby="cs-title">
-      <audio
-        ref={audioRef}
-        src={audioSrc}
-        preload="auto"
-        loop
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onError={() => {
-          setPlaying(false)
-          setNotice(fa ? 'فایل آهنگ روی سایت بارگذاری نشد.' : 'The hosted soundtrack could not be loaded.')
-        }}
-      />
-
       <div className="cs-hero">
         <span className="cs-topline">WORMHOLE / EXPERIMENT 004 / SOUNDTRAP.EXE</span>
         <h1 id="cs-title">{fa ? 'آهنگ نفرین‌شده' : 'THE CURSED SONG'}</h1>
