@@ -112,7 +112,13 @@ export function DarkSunMotion({ language, imageSrc, fullHref, returnHref }: {
         </div>
         <div className="ds-crown-label" aria-hidden="true">MONARCH<br />NO. 005</div>
         <div className="ds-sparks" aria-hidden="true">
-          {Array.from({ length: 22 }, (_, i) => <i key={i} style={{ '--particle': i } as CSSProperties} />)}
+          {Array.from({ length: 22 }, (_, i) => (
+            <i key={i} style={{
+              '--particle': i,
+              left: `${5 + (i * 37) % 90}%`,
+              top: `${6 + (i * 29) % 84}%`,
+            } as CSSProperties} />
+          ))}
         </div>
         <span className="ds-border-code" aria-hidden="true">BLACK SUN / 005 / STILL ALIVE</span>
       </div>

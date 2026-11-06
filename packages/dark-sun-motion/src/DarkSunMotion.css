@@ -66,7 +66,7 @@
 .ds-scanline { position: absolute; z-index: 3; pointer-events: none; left: 0; right: 0; height: 13%; top: -30%; opacity: .22; background: linear-gradient(transparent, #e0384c22, transparent); animation: ds-scan 9s linear infinite; }
 .ds-crown-label { position: absolute; z-index: 4; top: 46%; inset-inline-end: -32px; writing-mode: vertical-rl; color: #ffedf4; background: #131317; padding: 15px 7px; font: 850 9px/1.35 ui-monospace, monospace; letter-spacing: .2em; transform: rotate(4deg); }
 .ds-sparks { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
-.ds-sparks i { position: absolute; display: block; width: 3px; height: 12px; border-radius: 50%; background: #c52643; opacity: .7; left: calc(4% + mod(var(--particle) * 37, 95) * 1%); top: calc(4% + mod(var(--particle) * 29, 85) * 1%); box-shadow: 0 0 11px #d92745; animation: ds-ember calc(4s + var(--particle) * .12s) ease-in-out infinite alternate; animation-delay: calc(var(--particle) * -.27s); }
+.ds-sparks i { position: absolute; display: block; width: 3px; height: 12px; border-radius: 50%; background: #c52643; opacity: .7; left: 50%; top: 25%; box-shadow: 0 0 11px #d92745; animation: ds-ember calc(4s + var(--particle) * .12s) ease-in-out infinite alternate; animation-delay: calc(var(--particle) * -.27s); }
 .ds-world--awake .ds-portrait { filter: drop-shadow(16px 18px 0 rgba(116,18,40,.25)) saturate(1.2); }
 .ds-world--awake .ds-ink--a { opacity: .22; animation-duration: 7s; }
 .ds-world--awake .ds-ink--b { opacity: .14; animation-duration: 11s; }
