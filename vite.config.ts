@@ -15,6 +15,8 @@ export default defineConfig(({ mode }) => ({
         demolitionEn: 'en/experiments/page-demolition/index.html',
         mouseVirusFa: 'experiments/mouse-virus/index.html',
         mouseVirusEn: 'en/experiments/mouse-virus/index.html',
+        cursedSongFa: 'experiments/cursed-song/index.html',
+        cursedSongEn: 'en/experiments/cursed-song/index.html',
       },
     },
   },

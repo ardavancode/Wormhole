@@ -1,0 +1,12 @@
+.cs-pagebar {
+  position: relative; z-index: 8; background: #1c1024;
+  padding: 18px clamp(15px, 6vw, 95px); min-height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; color: #ffdf89;
+  font: 800 12px/1.5 Tahoma, system-ui, sans-serif;
+}
+.cs-pagebar span { color: #cab1cf; margin-inline-end: 140px; font: 800 10px ui-monospace, monospace; }
+.cs-pagebar a, .cs-pagefooter a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 4px; }
+.cs-pagebar a:focus-visible, .cs-pagefooter a:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+.cs-pagefooter { padding: 35px 18px; background: #100a18; text-align: center; color: #ffdf89; font: 800 13px Tahoma, system-ui, sans-serif; }
+@media (max-width: 600px) { .cs-pagebar { padding-inline-end: 150px; } .cs-pagebar span { margin-inline-end: 0; } }

@@ -5,6 +5,7 @@ import { RickrollLauncher } from '@wormhole/rickroll-launcher'
 import { HiringForm } from '@wormhole/hiring-form'
 import { DemolitionTeaser } from '@wormhole/page-demolition'
 import { MouseVirusTeaser } from '@wormhole/mouse-virus'
+import { CursedSongTeaser } from '@wormhole/cursed-song'
 import { LanguageToggle } from '@wormhole/language-toggle'
 import type { Language } from '@wormhole/language-toggle'
 import '@wormhole/adolfo-ronaldo/style.css'
@@ -14,6 +15,7 @@ import '@wormhole/hiring-form/style.css'
 import '@wormhole/language-toggle/style.css'
 import '@wormhole/page-demolition/style.css'
 import '@wormhole/mouse-virus/style.css'
+import '@wormhole/cursed-song/style.css'
 
 export default function App() {
   // Keep the rest of the site usable even if the reel chunk cannot load.
@@ -109,11 +111,12 @@ export default function App() {
         <div className="wormhole-archive__intro">
           <span>WORMHOLE // BOTTOM OF THE RABBIT HOLE</span>
           <h2 id="wormhole-archive-title">{language === 'fa' ? 'آزمایش‌های تبعیدی' : 'THE EXILED EXPERIMENTS'}</h2>
-          <p>{language === 'fa' ? 'دو خرابکاری کوچیک که فرستادیم‌شون تهِ سایت.' : 'Two little disasters banished to the bottom of the page.'}</p>
+          <p>{language === 'fa' ? 'چند خرابکاری عجیب که فرستادیم‌شون تهِ سایت.' : 'A few strange experiments banished to the bottom of the page.'}</p>
         </div>
         <div className="wormhole-archive__links">
           <DemolitionTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/page-demolition/'} />
           <MouseVirusTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/mouse-virus/'} />
+          <CursedSongTeaser language={language} href={import.meta.env.BASE_URL + (language === 'en' ? 'en/' : '') + 'experiments/cursed-song/'} />
         </div>
       </section>
     </>

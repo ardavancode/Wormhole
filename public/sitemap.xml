@@ -31,4 +31,14 @@
     <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/mouse-virus/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/mouse-virus/" />
   </url>
+  <url>
+    <loc>https://ardavancode.github.io/Wormhole/experiments/cursed-song/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/cursed-song/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/cursed-song/" />
+  </url>
+  <url>
+    <loc>https://ardavancode.github.io/Wormhole/en/experiments/cursed-song/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://ardavancode.github.io/Wormhole/experiments/cursed-song/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ardavancode.github.io/Wormhole/en/experiments/cursed-song/" />
+  </url>
 </urlset>
