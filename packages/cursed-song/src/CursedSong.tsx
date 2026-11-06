@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { ChangeEvent, FormEvent } from 'react'
+import type { CSSProperties, ChangeEvent, FormEvent } from 'react'
 import './CursedSong.css'
 
 type Language = 'fa' | 'en'
@@ -206,7 +206,7 @@ export function CursedSong({ language, homeHref, audioSrc }: {
         <div className="cs-decor cs-decor--b" aria-hidden="true">◉</div>
         <div className="cs-soundwave" aria-hidden="true">
           {Array.from({ length: 17 }, (_, i) => (
-            <i key={i} style={{ '--wave-index': i } as React.CSSProperties} className={playing ? 'cs-soundwave--active' : ''} />
+            <i key={i} style={{ '--wave-index': i } as CSSProperties} className={playing ? 'cs-soundwave--active' : ''} />
           ))}
         </div>
 
